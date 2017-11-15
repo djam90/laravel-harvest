@@ -1,0 +1,28 @@
+{
+    "name": "djam90/laravel-harvest",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Daniel Twigg",
+            "email": "hello@danieltwigg.co.uk"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Djam90\\Harvest\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Djam90\\Harvest\\HarvestServiceProvider"
+            ],
+            "aliases": {
+                "Harvest": "Djam90\\Harvest\\HarvestFacade"
+            }
+        }
+    }
+}
