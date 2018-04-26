@@ -58,7 +58,7 @@ class BaseService
         );
     }
 
-    public function patch($uri, $data = null)
+    public function httpPatch($uri, $data = null)
     {
         $res = $this->client->request('PATCH', $this->uri . $uri, [
             'json' => $data

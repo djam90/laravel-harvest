@@ -9,7 +9,8 @@ class CompanyService extends BaseService
     /**
      * Get the company.
      *
-     * Retrieves the company for the currently authenticated user. Returns a company object and a 200 OK response code.
+     * Retrieves the company for the currently authenticated user. Returns a
+     * company object and a 200 OK response code.
      *
      * @return mixed
      */
