@@ -12,10 +12,8 @@ class ProjectService extends BaseService
      * @param boolean|null $isActive Pass true to only return active projects and false to return inactive projects.
      * @param integer|null $clientId Only return projects belonging to the client with the given ID.
      * @param mixed|null $updatedSince Only return projects that have been updated since the given date and time.
-     * @param integer|null $page The page number to use in pagination. For instance, if you make a list request and
-     * receive 100 records, your subsequent call can include page=2 to retrieve the next page of the list. (Default: 1)
-     * @param integer|null $perPage The number of records to return per page. Can range between 1 and 100. (Default:
-     * 100)
+     * @param integer|null $page The page number to use in pagination.
+     * @param integer|null $perPage The number of records to return per page.
      *
      * @return mixed
      */
@@ -68,8 +66,8 @@ class ProjectService extends BaseService
     /**
      *  Retrieve a project.
      *
-     * Retrieves the project with the given ID. Returns a project object and a
-     * 200 OK response code if a valid identifier was provided.
+     * Retrieves the project with the given ID. Returns a project object and a 200 OK response code if a valid
+     * identifier was provided.
      *
      * @param integer $projectId The project ID.
      *
@@ -85,8 +83,7 @@ class ProjectService extends BaseService
     /**
      * Create a project.
      *
-     * Creates a new project object. Returns a project object and a 201 Created
-     * response code if the call succeeded.
+     * Creates a new project object. Returns a project object and a 201 Created response code if the call succeeded.
      *
      * @param integer $clientId The client ID.
      * @param string $name The name of the project.
@@ -100,15 +97,11 @@ class ProjectService extends BaseService
      * @param boolean|null $isFixedFee Whether the project is a fixed-fee project or not.
      * @param float|null $hourlyRate Rate for projects billed by Project Hourly Rate.
      * @param float|null $budget The budget in hours for the project when budgeting by time.
-     * @param boolean|null $notifyWhenOverBudget Whether project managers should be notified when the project goes over
-     * budget. Defaults to false.
-     * @param float|null $overBudgetNotificationPercentage Percentage value used to trigger over budget email alerts.
-     * Example: use 10.0 for 10.0%.
-     * @param boolean|null $showBudgetToAll Option to show project budget to all employees. Does not apply to Total
-     * Project Fee projects. Defaults to false.
+     * @param boolean|null $notifyWhenOverBudget Whether project managers should be notified when the project goes over budget. Defaults to false.
+     * @param float|null $overBudgetNotificationPercentage Percentage value used to trigger over budget email alerts. Example: use 10.0 for 10.0%.
+     * @param boolean|null $showBudgetToAll Option to show project budget to all employees. Does not apply to Total Project Fee projects. Defaults to false.
      * @param float|null $costBudget The monetary budget for the project when budgeting by money.
-     * @param boolean|null $costBudgetIncludeExpenses Option for budget of Total Project Fees projects to include
-     * tracked expenses. Defaults to false.
+     * @param boolean|null $costBudgetIncludeExpenses Option for budget of Total Project Fees projects to include tracked expenses. Defaults to false.
      * @param float|null $fee The amount you plan to invoice for the project. Only used by fixed-fee projects.
      * @param string|null $notes Project notes.
      * @param mixed|null $startsOn Date the project was started.
@@ -116,14 +109,27 @@ class ProjectService extends BaseService
      *
      * @return mixed
      */
-    public function create($clientId, $name, $isBillable, $billBy, $budgetBy,
-                           $code = null, $isActive = null, $isFixedFee = null,
-                           $hourlyRate = null, $budget = null,
-                           $notifyWhenOverBudget = null,
-                           $overBudgetNotificationPercentage = null,
-                           $showBudgetToAll = null, $costBudget = null,
-                           $costBudgetIncludeExpenses = null, $fee = null,
-                           $notes = null, $startsOn = null, $endsOn = null)
+    public function create(
+        $clientId,
+        $name,
+        $isBillable,
+        $billBy,
+        $budgetBy,
+        $code = null,
+        $isActive = null,
+        $isFixedFee = null,
+        $hourlyRate = null,
+        $budget = null,
+        $notifyWhenOverBudget = null,
+        $overBudgetNotificationPercentage = null,
+        $showBudgetToAll = null,
+        $costBudget = null,
+        $costBudgetIncludeExpenses = null,
+        $fee = null,
+        $notes = null,
+        $startsOn = null,
+        $endsOn = null
+    )
     {
         $uri = "projects";
 
@@ -140,18 +146,11 @@ class ProjectService extends BaseService
         if (!is_null($isFixedFee)) $data['is_fixed_fee'] = $isFixedFee;
         if (!is_null($hourlyRate)) $data['hourly_rate'] = $hourlyRate;
         if (!is_null($budget)) $data['budget'] = $budget;
-        if (!is_null($notifyWhenOverBudget)) $data['notify_when_over_budget'] =
-            $notifyWhenOverBudget;
-        if (!is_null($overBudgetNotificationPercentage)) {
-            $data['over_budget_notification_percentage'] =
-                $overBudgetNotificationPercentage;
-        }
-        if (!is_null($showBudgetToAll)) $data['show_budget_to_all'] =
-            $showBudgetToAll;
+        if (!is_null($notifyWhenOverBudget)) $data['notify_when_over_budget'] = $notifyWhenOverBudget;
+        if (!is_null($overBudgetNotificationPercentage)) $data['over_budget_notification_percentage'] = $overBudgetNotificationPercentage;
+        if (!is_null($showBudgetToAll)) $data['show_budget_to_all'] = $showBudgetToAll;
         if (!is_null($costBudget)) $data['cost_budget'] = $costBudget;
-        if (!is_null($costBudgetIncludeExpenses)) {
-            $data['cost_budget_include_expenses'] = $costBudgetIncludeExpenses;
-        }
+        if (!is_null($costBudgetIncludeExpenses)) $data['cost_budget_include_expenses'] = $costBudgetIncludeExpenses;
         if (!is_null($fee)) $data['fee'] = $fee;
         if (!is_null($notes)) $data['notes'] = $notes;
         if (!is_null($startsOn)) $data['starts_on'] = $startsOn;
@@ -182,15 +181,11 @@ class ProjectService extends BaseService
      * @param boolean|null $isFixedFee Whether the project is a fixed-fee project or not.
      * @param float|null $hourlyRate Rate for projects billed by Project Hourly Rate.
      * @param float|null $budget The budget in hours for the project when budgeting by time.
-     * @param boolean|null $notifyWhenOverBudget Whether project managers should be notified when the project goes over
-     * budget. Defaults to false.
-     * @param float|null $overBudgetNotificationPercentage Percentage value used to trigger over budget email alerts.
-     * Example: use 10.0 for 10.0%.
-     * @param boolean|null $showBudgetToAll Option to show project budget to all employees. Does not apply to Total
-     * Project Fee projects. Defaults to false.
+     * @param boolean|null $notifyWhenOverBudget Whether project managers should be notified when the project goes over budget. Defaults to false.
+     * @param float|null $overBudgetNotificationPercentage Percentage value used to trigger over budget email alerts. Example: use 10.0 for 10.0%.
+     * @param boolean|null $showBudgetToAll Option to show project budget to all employees. Does not apply to Total Project Fee projects. Defaults to false.
      * @param float|null $costBudget The monetary budget for the project when budgeting by money.
-     * @param boolean|null $costBudgetIncludeExpenses Option for budget of Total Project Fees projects to include
-     * tracked expenses. Defaults to false.
+     * @param boolean|null $costBudgetIncludeExpenses Option for budget of Total Project Fees projects to include tracked expenses. Defaults to false.
      * @param float|null $fee The amount you plan to invoice for the project. Only used by fixed-fee projects.
      * @param string|null $notes Project notes.
      * @param mixed|null $startsOn Date the project was started.
@@ -198,15 +193,28 @@ class ProjectService extends BaseService
      *
      * @return mixed
      */
-    public function update($projectId, $clientId = null, $name = null,
-                           $isBillable = null, $billBy = null, $budgetBy = null,
-                           $code = null, $isActive = null, $isFixedFee = null,
-                           $hourlyRate = null, $budget = null,
-                           $notifyWhenOverBudget = null,
-                           $overBudgetNotificationPercentage = null,
-                           $showBudgetToAll = null, $costBudget = null,
-                           $costBudgetIncludeExpenses = null, $fee = null,
-                           $notes = null, $startsOn = null, $endsOn = null)
+    public function update(
+        $projectId,
+        $clientId = null,
+        $name = null,
+        $isBillable = null,
+        $billBy = null,
+        $budgetBy = null,
+        $code = null,
+        $isActive = null,
+        $isFixedFee = null,
+        $hourlyRate = null,
+        $budget = null,
+        $notifyWhenOverBudget = null,
+        $overBudgetNotificationPercentage = null,
+        $showBudgetToAll = null,
+        $costBudget = null,
+        $costBudgetIncludeExpenses = null,
+        $fee = null,
+        $notes = null,
+        $startsOn = null,
+        $endsOn = null
+    )
     {
         $uri = "projects/" . $projectId;
 
@@ -222,18 +230,11 @@ class ProjectService extends BaseService
         if (!is_null($isFixedFee)) $data['is_fixed_fee'] = $isFixedFee;
         if (!is_null($hourlyRate)) $data['hourly_rate'] = $hourlyRate;
         if (!is_null($budget)) $data['budget'] = $budget;
-        if (!is_null($notifyWhenOverBudget)) $data['notify_when_over_budget'] =
-            $notifyWhenOverBudget;
-        if (!is_null($overBudgetNotificationPercentage)) {
-            $data['over_budget_notification_percentage'] =
-                $overBudgetNotificationPercentage;
-        }
-        if (!is_null($showBudgetToAll)) $data['show_budget_to_all'] =
-            $showBudgetToAll;
+        if (!is_null($notifyWhenOverBudget)) $data['notify_when_over_budget'] = $notifyWhenOverBudget;
+        if (!is_null($overBudgetNotificationPercentage)) $data['over_budget_notification_percentage'] = $overBudgetNotificationPercentage;
+        if (!is_null($showBudgetToAll)) $data['show_budget_to_all'] = $showBudgetToAll;
         if (!is_null($costBudget)) $data['cost_budget'] = $costBudget;
-        if (!is_null($costBudgetIncludeExpenses)) {
-            $data['cost_budget_include_expenses'] = $costBudgetIncludeExpenses;
-        }
+        if (!is_null($costBudgetIncludeExpenses)) $data['cost_budget_include_expenses'] = $costBudgetIncludeExpenses;
         if (!is_null($fee)) $data['fee'] = $fee;
         if (!is_null($notes)) $data['notes'] = $notes;
         if (!is_null($startsOn)) $data['starts_on'] = $startsOn;
@@ -245,10 +246,9 @@ class ProjectService extends BaseService
     /**
      * Delete a project.
      *
-     * Deletes a project and any time entries or expenses tracked to it.
-     * However, invoices associated with the project will not be deleted. If
-     * you don’t want the project’s time entries and expenses to be deleted,
-     * you should archive the project instead.
+     * Deletes a project and any time entries or expenses tracked to it. However, invoices associated with the project
+     * will not be deleted. If you don’t want the project’s time entries and expenses to be deleted, you should archive
+     * the project instead.
      *
      * @param integer $projectId The project ID.
      *
