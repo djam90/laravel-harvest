@@ -148,13 +148,14 @@ class InvoiceService extends BaseService
      *
      * Array structure for $lineItems
      *
-     * @var integer $project_id The ID of the project associated with this line item. (optional)
-     * @var string $kind The name of an invoice item category. (required)
-     * @var string $description The name of an invoice item category. (optional)
-     * @var integer $quantity The unit quantity of the item. Defaults to 1. (optional)
-     * @var float $unit_price The individual price per unit. (required)
-     * @var bool $taxed Whether the invoice's tax percentage applies to this line item. Defaults to false. (optional)
-     * @var bool $taxed2 Whether the invoice's tax2 percentage applies to this line item. Defaults to false. (optional)
+     * @var integer $id Unique ID for the line item.
+     * @var integer $project_id The ID of the project associated with this line item.
+     * @var string $kind The name of an invoice item category.
+     * @var string $description The name of an invoice item category.
+     * @var integer $quantity The unit quantity of the item. Defaults to 1.
+     * @var float $unit_price The individual price per unit.
+     * @var bool $taxed Whether the invoice's tax percentage applies to this line item. Defaults to false.
+     * @var bool $taxed2 Whether the invoice's tax2 percentage applies to this line item. Defaults to false.
      *
      * @return mixed
      */
@@ -188,7 +189,7 @@ class InvoiceService extends BaseService
     }
 
     /**
-     * Create an invoice item.
+     * Create an invoice line item.
      *
      * Create a new line item on an invoice. Returns a 200 OK response code if
      * the call succeeded.
@@ -233,10 +234,10 @@ class InvoiceService extends BaseService
     }
 
     /**
-     * Create an invoice item.
+     * Update an invoice item.
      *
-     * Create a new line item on an invoice. Returns a 200 OK response code if
-     * the call succeeded.
+     * Update a line item on an invoice. Returns a 200 OK response code if the
+     * call succeeded.
      *
      * @param integer $invoiceId The invoice ID.
      * @param integer $lineItemId The ID of the line item being updated.

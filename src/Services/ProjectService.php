@@ -38,6 +38,34 @@ class ProjectService extends BaseService
     }
 
     /**
+     * list all projects. (ignoring pagination)
+     *
+     * This will make multiple API calls to fetch ALL projects, iterating through paginated pages until all have been
+     * retrieved.
+     *
+     * @param boolean|null $isActive Pass true to only return active projects and false to return inactive projects.
+     * @param integer|null $clientId Only return projects belonging to the client with the given ID.
+     * @param mixed|null $updatedSince Only return projects that have been updated since the given date and time.
+     *
+     * @return mixed
+     */
+    public function getAll($isActive = null, $clientId = null, $updatedSince = null)
+    {
+        $batch = $this->get($isActive, $clientId, $updatedSince);
+        $projects = $batch->projects;
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            while (!is_null($batch->next_page)) {
+                $batch = $this->get($isActive, $clientId, $updatedSince, $batch->next_page);
+                array_merge($projects, $batch->projects);
+            }
+        }
+
+        return $projects;
+    }
+
+    /**
      *  Retrieve a project.
      *
      * Retrieves the project with the given ID. Returns a project object and a
