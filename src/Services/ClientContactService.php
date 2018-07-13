@@ -6,36 +6,38 @@ use Djam90\Harvest\BaseService;
 
 class ClientContactService extends BaseService
 {
-
     /**
      * Get all contacts.
      *
-     * Returns a list of your contacts. The contacts are returned sorted by creation date, with the most recently
-     * created contacts appearing first.
+     * Returns a list of your contacts. The contacts are returned sorted by
+     * creation date, with the most recently created contacts appearing first.
      *
-     * The response contains an object with a contacts property that contains an array of up to per_page contacts.
-     * Each entry in the array is a separate contact object. If no more contacts are available, the resulting array will
-     * be empty. Several additional pagination properties are included in the response to simplify paginating your
-     * contacts.
+     * The response contains an object with a contacts property that contains
+     * an array of up to per_page contacts. Each entry in the array is a
+     * separate contact object. If no more contacts are available, the
+     * resulting array will be empty.
      *
-     * @param int|null $clientId Only return contacts belonging to the client with the given ID.
+     * Several additional pagination properties are included in the response to
+     * simplify paginating your contacts.
+     *
+     * @param integer|null $clientId Only return contacts belonging to the client with the given ID.
      * @param string|null $updatedSince Only return contacts that have been updated since the given date and time.
-     * @param int $page The page number to use in pagination.
-     * @param int $perPage The number of records to return per page.
+     * @param integer|null $page The page number to use in pagination.
+     * @param integer|null $perPage The number of records to return per page.
      *
      * @return mixed
      */
-    public function get($clientId = null, $updatedSince = null, $page = 1, $perPage = 100)
+    public function get($clientId = null, $updatedSince = null, $page = null,
+                        $perPage = null)
     {
         $uri = "contacts";
 
-        $data = [
-            'page' => $page,
-            'per_page' => $perPage
-        ];
+        $data = [];
 
         if (!is_null($clientId)) $data['client_id'] = $clientId;
         if (!is_null($updatedSince)) $data['updated_since'] = $updatedSince;
+        if (!is_null($page)) $data['page'] = $page;
+        if (!is_null($perPage)) $data['per_page'] = $perPage;
 
         return $this->httpGet($uri, $data);
     }
@@ -43,10 +45,11 @@ class ClientContactService extends BaseService
     /**
      * Get a contact by ID.
      *
-     * Retrieves the contact with the given ID. Returns a contact object and a 200 OK response code if a valid
-     * identifier was provided.
+     * Retrieves the contact with the given ID. Returns a contact object and a
+     * 200 OK response code if a valid identifier was provided.
      *
-     * @param $contactId
+     * @param integer $contactId The contact ID.
+     *
      * @return mixed
      */
     public function getById($contactId)
@@ -59,21 +62,23 @@ class ClientContactService extends BaseService
     /**
      * Create a new contact.
      *
-     * Creates a new contact object. Returns a contact object and a 201 Created response code if the call succeeded.
+     * Creates a new contact object. Returns a contact object and a 201 Created
+     * response code if the call succeeded.
      *
-     * @param int $clientId The ID of the client associated with this contact.
+     * @param integer $clientId The ID of the client associated with this contact.
      * @param string $firstName The first name of the contact.
      * @param string|null $lastName The last name of the contact.
      * @param string|null $title The title of the contact.
-     * @param string|null $email The contact’s email address.
-     * @param string|null $phoneOffice The contact’s office phone number.
-     * @param string|null $phoneMobile The contact’s mobile phone number.
-     * @param string|null $fax The contact’s fax number.
+     * @param string|null $email The contact's email address.
+     * @param string|null $phoneOffice The contact's office phone number.
+     * @param string|null $phoneMobile The contact's mobile phone number.
+     * @param string|null $fax The contact's fax number.
      *
      * @return mixed
      */
-    public function create($clientId, $firstName, $lastName = null, $title = null, $email = null,
-                           $phoneOffice = null, $phoneMobile = null, $fax = null)
+    public function create($clientId, $firstName, $lastName = null,
+                           $title = null, $email = null, $phoneOffice = null,
+                           $phoneMobile = null, $fax = null)
     {
         $uri = "contacts";
 
@@ -95,22 +100,28 @@ class ClientContactService extends BaseService
     /**
      * Update a contact.
      *
-     * Updates the specific contact by setting the values of the parameters passed. Any parameters not provided will be
-     * left unchanged. Returns a contact object and a 200 OK response code if the call succeeded.
+     * Updates the specific contact by setting the values of the parameters
+     * passed. Any parameters not provided will be left unchanged.
      *
-     * @param int $contactId The contact ID.
-     * @param int $clientId The ID of the client associated with this contact.
+     * Returns a contact object and a 200 OK response code if the call
+     * succeeded.
+     *
+     * @param integer $contactId The contact ID.
+     * @param integer $clientId The ID of the client associated with this contact.
      * @param string|null $firstName The first name of the contact.
      * @param string|null $lastName The last name of the contact.
      * @param string|null $title The title of the contact.
-     * @param string|null $email The contact’s email address.
-     * @param string|null $phoneOffice The contact’s office phone number.
-     * @param string|null $phoneMobile The contact’s mobile phone number.
-     * @param string|null $fax The contact’s fax number.
+     * @param string|null $email The contact's email address.
+     * @param string|null $phoneOffice The contact's office phone number.
+     * @param string|null $phoneMobile The contact's mobile phone number.
+     * @param string|null $fax The contact's fax number.
+     *
      * @return mixed
      */
-    public function update($contactId, $clientId, $firstName = null, $lastName = null, $title = null,
-                                  $email = null, $phoneOffice = null, $phoneMobile = null, $fax = null)
+    public function update($contactId, $clientId, $firstName = null,
+                           $lastName = null, $title = null, $email = null,
+                           $phoneOffice = null, $phoneMobile = null,
+                           $fax = null)
     {
         $uri = "contacts/" . $contactId;
 
@@ -125,7 +136,7 @@ class ClientContactService extends BaseService
         if (!is_null($phoneMobile)) $data['phone_mobile'] = $phoneMobile;
         if (!is_null($fax)) $data['fax'] = $fax;
 
-        return $this->patch($uri, $data);
+        return $this->httpPatch($uri, $data);
     }
 
     /**
@@ -133,7 +144,8 @@ class ClientContactService extends BaseService
      *
      * Returns a 200 OK response code if the call succeeded.
      *
-     * @param int $contactId The contact ID.
+     * @param integer $contactId The contact ID.
+     *
      * @return mixed
      */
     public function delete($contactId)

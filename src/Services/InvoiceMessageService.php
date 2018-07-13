@@ -6,7 +6,32 @@ use Djam90\Harvest\BaseService;
 
 class InvoiceMessageService extends BaseService
 {
-    public function get($invoiceId, $updatedSince = null, $page = 1, $perPage = 100)
+    /**
+     * List all messages for an invoice.
+     *
+     * Returns a list of messages associated with a given invoice. The invoice
+     * messages are returned sorted by creation date, with the most recently
+     * created messages appearing first.
+     *
+     * The response contains an object with an invoice_messages property that
+     * contains an array of up to per_page messages. Each entry in the array is
+     * a separate message object. If no more messages are available, the
+     * resulting array will be empty.
+     *
+     * Several additional pagination properties are included in the response to
+     * simplify paginating your messages.
+     *
+     * @param integer $invoiceId The invoice ID.
+     * @param mixed|null $updatedSince Only return invoice messages that have been updated since the given date and
+     * time.
+     * @param integer $page The page number to use in pagination. For instance, if you make a list request and receive
+     * 100 records, your subsequent call can include page=2 to retrieve the next page of the list. (Default: 1)
+     * @param integer $perPage The number of records to return per page. Can range between 1 and 100. (Default: 100)
+     *
+     * @return mixed
+     */
+    public function get($invoiceId, $updatedSince = null, $page = null,
+                        $perPage = null)
     {
         $uri = "invoices/" . $invoiceId . "/messages";
 
@@ -25,15 +50,15 @@ class InvoiceMessageService extends BaseService
      * Creates a new invoice message object. Returns an invoice message object and a 201 Created response code if the
      * call succeeded.
      *
-     * @param int $invoiceId The ID of the invoice that a message is being created for.
+     * @param integer $invoiceId The ID of the invoice that a message is being created for.
      * @param array $recipients Array of recipient parameters. See below for details.
      * @param string|null $subject The message subject.
      * @param string|null $body The message body.
-     * @param bool|null $includeLinkToClientInvoice Include client invoice URL in the message email?
-     * @param bool|null $attachPdf Attach a PDF of the invoice to the message email?
-     * @param bool|null $sendMeACopy If set to true, a copy of the message email will be sent to the current user.
-     * @param bool|null $thankYou If set to true, a thank you message email will be sent.
-     * @param bool|null $eventType If provided, runs an event against the invoice.
+     * @param boolean|null $includeLinkToClientInvoice Include client invoice URL in the message email?
+     * @param boolean|null $attachPdf Attach a PDF of the invoice to the message email?
+     * @param boolean|null $sendMeACopy If set to true, a copy of the message email will be sent to the current user.
+     * @param boolean|null $thankYou If set to true, a thank you message email will be sent.
+     * @param boolean|null $eventType If provided, runs an event against the invoice.
      *
      * Array structure for $recipients
      *
@@ -42,8 +67,10 @@ class InvoiceMessageService extends BaseService
      *
      * @return mixed
      */
-    public function create($invoiceId, $recipients, $subject = null, $body = null, $includeLinkToClientInvoice = null,
-                           $attachPdf = null, $sendMeACopy = null, $thankYou = null, $eventType = null)
+    public function create($invoiceId, $recipients, $subject = null,
+                           $body = null, $includeLinkToClientInvoice = null,
+                           $attachPdf = null, $sendMeACopy = null,
+                           $thankYou = null, $eventType = null)
     {
         $uri = "invoices/" . $invoiceId . "/messages";
 
@@ -53,7 +80,10 @@ class InvoiceMessageService extends BaseService
 
         if (!is_null($subject)) $data['subject'] = $subject;
         if (!is_null($body)) $data['body'] = $body;
-        if (!is_null($includeLinkToClientInvoice)) $data['include_link_to_client_invoice'] = $includeLinkToClientInvoice;
+        if (!is_null($includeLinkToClientInvoice)) {
+            $data['include_link_to_client_invoice'] =
+                $includeLinkToClientInvoice;
+        }
         if (!is_null($attachPdf)) $data['attach_pdf'] = $attachPdf;
         if (!is_null($sendMeACopy)) $data['send_me_a_copy'] = $sendMeACopy;
         if (!is_null($thankYou)) $data['thank_you'] = $thankYou;
@@ -65,10 +95,11 @@ class InvoiceMessageService extends BaseService
     /**
      * Delete an invoice message.
      *
-     * Delete an invoice message. Returns a 200 OK response code if the call succeeded.
+     * Delete an invoice message. Returns a 200 OK response code if the call
+     * succeeded.
      *
-     * @param int $invoiceId The invoice ID.
-     * @param int $messageId The message ID.
+     * @param integer $invoiceId The invoice ID.
+     * @param integer $messageId The message ID.
      *
      * @return mixed
      */
@@ -82,10 +113,11 @@ class InvoiceMessageService extends BaseService
     /**
      * Mark a draft invoice as sent.
      *
-     * Creates a new invoice message object and marks the invoice as sent. Returns an invoice message object and a 201
-     * Created response code if the call succeeded.
+     * Creates a new invoice message object and marks the invoice as sent.
+     * Returns an invoice message object and a 201 Created response code if the
+     * call succeeded.
      *
-     * @param int $invoiceId The invoice ID.
+     * @param integer $invoiceId The invoice ID.
      *
      * @return mixed
      */
@@ -103,10 +135,11 @@ class InvoiceMessageService extends BaseService
     /**
      * Mark an open invoice as closed.
      *
-     * Creates a new invoice message object and marks the invoice as closed. Returns an invoice message object and a 201
-     * Created response code if the call succeeded.
+     * Creates a new invoice message object and marks the invoice as closed.
+     * Returns an invoice message object and a 201 Created response code if the
+     * call succeeded.
      *
-     * @param int $invoiceId The invoice ID.
+     * @param integer $invoiceId The invoice ID.
      *
      * @return mixed
      */
@@ -124,10 +157,11 @@ class InvoiceMessageService extends BaseService
     /**
      * Re-open a closed invoice.
      *
-     * Creates a new invoice message object and re-opens a closed invoice. Returns an invoice message object and a 201
-     * Created response code if the call succeeded.
+     * Creates a new invoice message object and re-opens a closed invoice.
+     * Returns an invoice message object and a 201 Created response code if the
+     * call succeeded.
      *
-     * @param int $invoiceId The invoice ID.
+     * @param integer $invoiceId The invoice ID.
      *
      * @return mixed
      */
@@ -145,10 +179,11 @@ class InvoiceMessageService extends BaseService
     /**
      * Mark an open invoice as a draft.
      *
-     * Creates a new invoice message object and marks an open invoice as a draft. Returns an invoice message object and
-     * a 201 Created response code if the call succeeded.
+     * Creates a new invoice message object and marks an open invoice as a
+     * draft. Returns an invoice message object and a 201 Created response code
+     * if the call succeeded.
      *
-     * @param int $invoiceId The invoice ID.
+     * @param integer $invoiceId The invoice ID.
      *
      * @return mixed
      */

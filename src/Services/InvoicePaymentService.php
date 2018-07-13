@@ -9,22 +9,25 @@ class InvoicePaymentService extends BaseService
     /**
      * List all payments for an invoice.
      *
-     * Returns a list of payments associate with a given invoice. The payments are returned sorted by creation date,
-     * with the most recently created payments appearing first.
+     * Returns a list of payments associate with a given invoice. The payments
+     * are returned sorted by creation date, with the most recently created
+     * payments appearing first.
      *
-     * The response contains an object with an invoice_payments property that contains an array of up to per_page
-     * payments. Each entry in the array is a separate payment object. If no more payments are available, the resulting
-     * array will be empty. Several additional pagination properties are included in the response to simplify
-     * paginating your payments.
+     * The response contains an object with an invoice_payments property that
+     * contains an array of up to per_page payments. Each entry in the array is
+     * a separate payment object. If no more payments are available, the
+     * resulting array will be empty. Several additional pagination properties
+     * are included in the response to simplify paginating your payments.
      *
-     * @param int $invoiceId
+     * @param integer $invoiceId The invoice ID.
      * @param string|null $updatedSince Only return invoice payments that have been updated since the given date and time.
-     * @param int $page The page number to use in pagination.
-     * @param int $perPage The number of records to return per page.
+     * @param integer $page The page number to use in pagination.
+     * @param integer $perPage The number of records to return per page.
      *
      * @return mixed
      */
-    public function get($invoiceId, $updatedSince = null, $page = 1, $perPage = 100)
+    public function get($invoiceId, $updatedSince = null, $page = null,
+                        $perPage = null)
     {
         $uri = "invoices/" . $invoiceId . "/payments";
 
@@ -40,10 +43,10 @@ class InvoicePaymentService extends BaseService
     /**
      * Create an invoice payment.
      *
-     * Creates a new invoice payment object. Returns an invoice payment object and a 201 Created response code if the
-     * call succeeded.
+     * Creates a new invoice payment object. Returns an invoice payment object
+     * and a 201 Created response code if the call succeeded.
      *
-     * @param int $invoiceId The ID of the invoice that a message is being created for.
+     * @param integer $invoiceId The ID of the invoice that a message is being created for.
      * @param float $amount The amount of the payment.
      * @param string|null $paidAt Date and time the payment was made.
      * @param string|null $notes Any notes to be associated with the payment.
@@ -67,10 +70,11 @@ class InvoicePaymentService extends BaseService
     /**
      * Delete an invoice payment.
      *
-     * Delete an invoice payment. Returns a 200 OK response code if the call succeeded.
+     * Delete an invoice payment. Returns a 200 OK response code if the call
+     * succeeded.
      *
-     * @param int $invoiceId The invoice ID.
-     * @param int $paymentId The payment ID.
+     * @param integer $invoiceId The invoice ID.
+     * @param integer $paymentId The payment ID.
      *
      * @return mixed
      */
