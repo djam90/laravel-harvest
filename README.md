@@ -35,7 +35,7 @@ Then you can use it in your methods:
 ```
 public function foo()
 {
-    $user = $this->harvestService->user->getUser();
+    $user = $this->harvestService->user->getCurrentUser();
 }
 ```
 
@@ -47,7 +47,7 @@ use Harvest;
 public function foo()
 {
     // notice the user() is a method when using the Facade
-    Harvest::user()->getUser();
+    Harvest::user()->getCurrentUser();
 }
 ```
 
@@ -55,5 +55,5 @@ public function foo()
 ```
 $harvestService = $this->harvestService;
 
-$harvestService->user->getUser();
+$harvestService->user->getCurrentUser();
 ```
