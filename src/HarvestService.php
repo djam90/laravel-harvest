@@ -103,4 +103,8 @@ class HarvestService extends BaseService
         }
     }
 
+    public function __call($method, array $arguments)
+    {
+        return $this->__get($method);
+    }
 }

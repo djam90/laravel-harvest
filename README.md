@@ -8,3 +8,52 @@
 
 ### Installation Instructions
 Simply run in your terminal `composer require djam90/laravel-harvest`
+
+The package should automatically register the service provider.
+
+You may need to publish the vendor config file by running `php artisan vendor:publish`
+
+### Usage
+Add the following to your .env file:
+```
+HARVEST_ACCOUNT_ID=[YOUR_ACCOUNT_ID]
+HARVEST_PERSONAL_ACCESS_TOKEN=[YOUR_ACCESS_TOKEN]
+```
+
+Import the HarvestService class into your constructor or controller methods:
+
+```
+use Djam90\Harvest\HarvestService;
+
+public function __construct(HarvestService $harvestService)
+{
+    $this->harvestService = $harvestService;
+}
+```
+
+Then you can use it in your methods:
+```
+public function foo()
+{
+    $user = $this->harvestService->user->getUser();
+}
+```
+
+You can also use the Harvest facade:
+
+```
+use Harvest;
+
+public function foo()
+{
+    // notice the user() is a method when using the Facade
+    Harvest::user()->getUser();
+}
+```
+
+### API
+```
+$harvestService = $this->harvestService;
+
+$harvestService->user->getUser();
+```

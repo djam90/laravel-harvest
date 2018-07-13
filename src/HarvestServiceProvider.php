@@ -21,12 +21,8 @@ class HarvestServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             'harvest',
-            function ($app) {
-                $config = $app->make('config');
-                $uri = $config->get('harvest.uri');
-                $token = $config->get('harvest.personal_access_token');
-                return new HarvestService();
-            });
+            HarvestService::class
+        );
     }
 
     public function provides()

@@ -7,9 +7,9 @@ use GuzzleHttp\Client;
 class BaseService
 {
     /**
-     * @var Client $client
+     * @var Client $apiClient
      */
-    protected $client;
+    protected $apiClient;
     protected $uri;
     protected $token;
     protected $account_id;
@@ -20,7 +20,7 @@ class BaseService
         $this->token = config('harvest.personal_access_token');
         $this->account_id = config('harvest.account_id');
 
-        $client = new Client([
+        $apiClient = new Client([
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->token,
                 'Harvest-Account-Id' => $this->account_id,
@@ -28,7 +28,7 @@ class BaseService
             ]
         ]);
 
-        $this->client = $client;
+        $this->apiClient = $apiClient;
     }
 
     public function toArray($json)
@@ -38,7 +38,7 @@ class BaseService
 
     public function httpGet($uri, $data = null)
     {
-        $res = $this->client->request('GET', $this->uri . $uri, [
+        $res = $this->apiClient->request('GET', $this->uri . $uri, [
             'json' => $data
         ]);
 
@@ -49,7 +49,7 @@ class BaseService
 
     public function httpPost($uri, $data = null)
     {
-        $res = $this->client->request('POST', $this->uri . $uri, [
+        $res = $this->apiClient->request('POST', $this->uri . $uri, [
             'json' => $data
         ]);
 
@@ -60,7 +60,7 @@ class BaseService
 
     public function patch($uri, $data = null)
     {
-        $res = $this->client->request('PATCH', $this->uri . $uri, [
+        $res = $this->apiClient->request('PATCH', $this->uri . $uri, [
             'json' => $data
         ]);
 
@@ -71,7 +71,7 @@ class BaseService
 
     public function httpDelete($uri)
     {
-        $res = $this->client->delete($uri);
+        $res = $this->apiClient->delete($uri);
 
         return $this->toArray(
             (string)$res->getBody()
