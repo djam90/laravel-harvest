@@ -7,6 +7,7 @@ use Djam90\Harvest\Services\ClientService;
 use Djam90\Harvest\Services\CompanyService;
 use Djam90\Harvest\Services\InvoiceMessageService;
 use Djam90\Harvest\Services\InvoiceService;
+use Djam90\Harvest\Services\ProjectService;
 use Djam90\Harvest\Services\UserService;
 use Exception;
 use \GuzzleHttp\Client;
@@ -44,12 +45,18 @@ class HarvestService extends BaseService
     private $invoiceMessage;
 
     /**
+     * @var ProjectService $projectService
+     */
+    private $projectService;
+
+    /**
      * HarvestService constructor.
      *
      * @param ClientContactService $clientContactService
      * @param ClientService $clientService
      * @param CompanyService $companyService
      * @param InvoiceService $invoiceService
+     * @param ProjectService $projectService
      * @param UserService $harvestUserService
      */
     public function __construct(
@@ -58,6 +65,7 @@ class HarvestService extends BaseService
         CompanyService $companyService,
         InvoiceService $invoiceService,
         InvoiceMessageService $invoiceMessageService,
+        ProjectService $projectService,
         UserService $harvestUserService
     )
     {
@@ -67,6 +75,7 @@ class HarvestService extends BaseService
         $this->company = $companyService;
         $this->invoice = $invoiceService;
         $this->invoiceMessage = $invoiceMessageService;
+        $this->project = $projectService;
         $this->user = $harvestUserService;
     }
 
@@ -91,6 +100,10 @@ class HarvestService extends BaseService
 
             case 'invoiceMessage':
                 return $this->invoiceMessage;
+                break;
+
+            case 'project':
+                return $this->project;
                 break;
 
             case 'user':
