@@ -26,7 +26,7 @@ class UserService extends BaseService
      */
     public function get($isActive = null, $updatedSince = null, $page = null, $perPage = null)
     {
-        $uri = "/";
+        $uri = "/users";
 
         $data = [];
 
