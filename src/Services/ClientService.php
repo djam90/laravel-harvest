@@ -3,9 +3,14 @@
 namespace Djam90\Harvest\Services;
 
 use Djam90\Harvest\BaseService;
+use Djam90\Harvest\Models\Client;
 
 class ClientService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\Client::class;
+
+    protected $path = "clients";
+
     /**
      * Get clients.
      *
@@ -19,8 +24,7 @@ class ClientService extends BaseService
      *
      * @return mixed
      */
-    public function get($isActive = null, $updatedSince = null, $page = null,
-                        $perPage = null)
+    public function get($isActive = null, $updatedSince = null, $page = null, $perPage = null)
     {
         $uri = "clients";
 
@@ -34,7 +38,14 @@ class ClientService extends BaseService
         // @todo validate An ISO 8601 formatted string containing a UTC date
         // and time.
 
-        return $this->httpGet($uri, $data);
+        $clients = $this->api->get($uri, $data);
+
+        return $this->transformResult($clients);
+    }
+
+    public function getPage($page, $perPage = null)
+    {
+        return $this->get(null, null, $page, $perPage);
     }
 
     /**
@@ -50,7 +61,9 @@ class ClientService extends BaseService
     {
         $uri = "clients/" . $clientId;
 
-        return $this->httpGet($uri);
+        $client = $this->api->get($uri);
+
+        return $this->transformResult($client);
     }
 
     /**
@@ -81,7 +94,7 @@ class ClientService extends BaseService
         // @todo implement currency validation as per
         // https://help.getharvest.com/api-v2/introduction/overview/supported-currencies/
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -101,8 +114,7 @@ class ClientService extends BaseService
      *
      * @return mixed
      */
-    public function update($clientId, $name = null, $isActive = null,
-                           $address = null, $currency = null)
+    public function update($clientId, $name = null, $isActive = null, $address = null, $currency = null)
     {
         $uri = "clients/" . $clientId;
 
@@ -116,7 +128,7 @@ class ClientService extends BaseService
         // @todo implement currency validation as per
         // https://help.getharvest.com/api-v2/introduction/overview/supported-currencies/
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -135,6 +147,6 @@ class ClientService extends BaseService
     {
         $uri = "clients/" . $clientId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 }

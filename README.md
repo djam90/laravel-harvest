@@ -15,6 +15,8 @@ You may need to publish the vendor config file by running `php artisan vendor:pu
 
 ### Usage
 Add the following to your .env file:
+
+*Please note that the Harvest details must be from an Admin user*
 ```
 HARVEST_ACCOUNT_ID=[YOUR_ACCOUNT_ID]
 HARVEST_PERSONAL_ACCESS_TOKEN=[YOUR_ACCESS_TOKEN]

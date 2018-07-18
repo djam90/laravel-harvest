@@ -3,9 +3,15 @@
 namespace Djam90\Harvest\Services;
 
 use Djam90\Harvest\BaseService;
+use Djam90\Harvest\Objects\User;
+use Djam90\Harvest\Objects\PaginatedCollection;
 
 class UserService extends BaseService
 {
+    protected $path = 'users';
+
+    protected $modelClass = \Djam90\Harvest\Models\User::class;
+
     /**
      * List all users.
      *
@@ -35,7 +41,9 @@ class UserService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->httpGet($uri, $data);
+        $users = $this->api->get($uri, $data);
+
+        return $this->transformResult($users);
     }
 
     /**
@@ -50,7 +58,9 @@ class UserService extends BaseService
     {
         $uri = "users/me";
 
-        return $this->httpGet($uri);
+        $user = $this->api->get($uri);
+
+        return $this->transformResult($user);
     }
 
     /**
@@ -67,7 +77,7 @@ class UserService extends BaseService
     {
         $uri = "users/" . $userId;
 
-        return $this->httpGet($uri);
+        return $this->transformResult($this->api->get($uri));
     }
 
     /**
@@ -142,7 +152,7 @@ class UserService extends BaseService
         if (!is_null($costRate)) $data['cost_rate'] = $costRate;
         if (!is_null($roles)) $data['roles'] = $roles;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -215,7 +225,7 @@ class UserService extends BaseService
         if (!is_null($costRate)) $data['cost_rate'] = $costRate;
         if (!is_null($roles)) $data['roles'] = $roles;
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
 
@@ -233,6 +243,6 @@ class UserService extends BaseService
     {
         $uri = "users/" . $userId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 }

@@ -2,79 +2,79 @@
 
 namespace Djam90\Harvest;
 
+use Exception;
 use GuzzleHttp\Client;
+use Djam90\Harvest\Api\Gateway;
+use Djam90\Harvest\Models\Base;
+use Djam90\Harvest\Objects\PaginatedCollection;
 
 class BaseService
 {
+    protected $api;
+
     /**
      * @var Client $apiClient
      */
     protected $apiClient;
+
     protected $uri;
-    protected $token;
-    protected $account_id;
+    private $token;
+    private $account_id;
 
-    public function __construct()
+    protected $modelClass = Base::class;
+
+    /**
+     * BaseService constructor.
+     * @param Gateway $api
+     */
+    public function __construct(Gateway $api)
     {
-        $this->uri = config('harvest.uri');
-        $this->token = config('harvest.personal_access_token');
-        $this->account_id = config('harvest.account_id');
-
-        $apiClient = new Client([
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->token,
-                'Harvest-Account-Id' => $this->account_id,
-                'User-Agent' => 'Harvest API App'
-            ]
-        ]);
-
-        $this->apiClient = $apiClient;
+        $this->api = $api;
     }
 
-    public function toArray($json)
+    public function getAll()
     {
-        return json_decode($json, true);
+        $batch = $this->get();
+        $items = $batch->{$this->path};
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            while (!is_null($batch->next_page)) {
+                $batch = $this->getPage($batch->next_page);
+                $items = $items->merge($batch->{$this->path});
+            }
+        }
+        return $this->transformResult($items);
     }
 
-    public function httpGet($uri, $data = null)
+    public function transformResult($result)
     {
-        $res = $this->apiClient->request('GET', $this->uri . $uri, [
-            'json' => $data
-        ]);
+        $path = $this->path;
 
-        return $this->toArray(
-            (string)$res->getBody()
-        );
+        if (isset($result->total_entries)) {
+            $items = $result->$path;
+            $result->$path = collect($items)->map(function ($item) {
+                return $this->mapToModel($item);
+            });
+
+            $result->path = $path;
+            $result->service = $this;
+            return new PaginatedCollection($result);
+
+        } else if ($result instanceof \Illuminate\Support\Collection) {
+            return $result->map(function ($item) {
+                return $this->mapToModel($item);
+            });
+
+        } else {
+            return $this->mapToModel($result);
+        }
     }
 
-    public function httpPost($uri, $data = null)
+    public function mapToModel($result)
     {
-        $res = $this->apiClient->request('POST', $this->uri . $uri, [
-            'json' => $data
-        ]);
+        $class = $this->modelClass;
 
-        return $this->toArray(
-            (string)$res->getBody()
-        );
-    }
-
-    public function httpPatch($uri, $data = null)
-    {
-        $res = $this->apiClient->request('PATCH', $this->uri . $uri, [
-            'json' => $data
-        ]);
-
-        return $this->toArray(
-            (string)$res->getBody()
-        );
-    }
-
-    public function httpDelete($uri)
-    {
-        $res = $this->apiClient->delete($uri);
-
-        return $this->toArray(
-            (string)$res->getBody()
-        );
+        return new $class($result);
     }
 }
