@@ -6,6 +6,10 @@ use Djam90\Harvest\BaseService;
 
 class ExpenseCategoryService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\ExpenseCategory::class;
+
+    protected $path = "expense_categories";
+
     /**
      * List all expense categories.
      *
@@ -45,7 +49,7 @@ class ExpenseCategoryService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->api->get($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**
@@ -66,7 +70,7 @@ class ExpenseCategoryService extends BaseService
 
         $data = [];
 
-        return $this->api->get($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**

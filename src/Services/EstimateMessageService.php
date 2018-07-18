@@ -8,6 +8,10 @@ use Djam90\Harvest\Objects\EstimateMessageRecipient;
 
 class EstimateMessageService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\EstimateMessage::class;
+
+    protected $path = "estimate_messages";
+
     /**
      * List all messages for an estimate.
      *
@@ -43,7 +47,7 @@ class EstimateMessageService extends BaseService
         // @todo validate An ISO 8601 formatted string containing a UTC date
         // and time.
 
-        return $this->api->get($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**

@@ -6,6 +6,10 @@ use Djam90\Harvest\BaseService;
 
 class CompanyService extends BaseService
 {
+    protected $path = 'company';
+
+    protected $modelClass = \Djam90\Harvest\Models\Company::class;
+
     /**
      * Get the company.
      *
@@ -18,6 +22,6 @@ class CompanyService extends BaseService
     {
         $uri = "company";
 
-        return $this->api->get($uri);
+        return $this->transformResult($this->api->get($uri));
     }
 }

@@ -6,6 +6,10 @@ use Djam90\Harvest\BaseService;
 
 class InvoiceService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\Invoice::class;
+
+    protected $path = "invoices";
+
     /**
      * Get invoices.
      *
@@ -33,7 +37,7 @@ class InvoiceService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->api->get($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**
@@ -50,7 +54,7 @@ class InvoiceService extends BaseService
     {
         $uri = "invoices/" . $invoiceId;
 
-        return $this->api->get($uri);
+        return $this->transformResult($this->api->get($uri));
     }
 
     /**

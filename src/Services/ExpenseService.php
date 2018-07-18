@@ -6,6 +6,10 @@ use Djam90\Harvest\BaseService;
 
 class ExpenseService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\Expenses::class;
+
+    protected $path = "expenses";
+
     /**
      * Get expenses.
      *
@@ -42,7 +46,7 @@ class ExpenseService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->api->get($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**
@@ -59,7 +63,7 @@ class ExpenseService extends BaseService
     {
         $uri = "expenses/" . $expenseId;
 
-        return $this->api->get($uri);
+        return $this->transformResult($this->api->get($uri));
     }
 
     /**

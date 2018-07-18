@@ -6,6 +6,10 @@ use Djam90\Harvest\BaseService;
 
 class InvoiceItemCategoryService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\InvoiceItemCategory::class;
+
+    protected $path = "invoice_item_categories";
+
     /**
      * List all invoice item categories.
      *
@@ -41,7 +45,7 @@ class InvoiceItemCategoryService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->api->get($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**
@@ -62,7 +66,7 @@ class InvoiceItemCategoryService extends BaseService
 
         $data = [];
 
-        return $this->api->get($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**

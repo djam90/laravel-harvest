@@ -9,6 +9,10 @@ use Djam90\Harvest\BaseService;
  */
 class ProjectTaskAssignmentService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\ProjectTaskAssignment::class;
+
+    protected $path = "task_assignments";
+
     /**
      * List all task assignments.
      *
@@ -51,7 +55,7 @@ class ProjectTaskAssignmentService extends BaseService
         // @todo validate An ISO 8601 formatted string containing a UTC date
         // and time.
 
-        return $this->api->get($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**
@@ -71,7 +75,7 @@ class ProjectTaskAssignmentService extends BaseService
         $uri = "projects/" . $projectId . "/task_assignments/" .
             $taskAssignmentId;
 
-        return $this->api->get($uri);
+        return $this->transformResult($this->api->get($uri));
     }
 
     /**

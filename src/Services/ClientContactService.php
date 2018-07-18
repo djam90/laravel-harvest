@@ -6,6 +6,10 @@ use Djam90\Harvest\BaseService;
 
 class ClientContactService extends BaseService
 {
+    protected $path = 'contacts';
+
+    protected $modelClass = \Djam90\Harvest\Models\Contact::class;
+
     /**
      * Get all contacts.
      *
@@ -39,7 +43,7 @@ class ClientContactService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->api->get($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**
@@ -56,7 +60,7 @@ class ClientContactService extends BaseService
     {
         $uri = "contacts/" . $contactId;
 
-        return $this->api->get($uri);
+        return $this->transformResult($this->api->get($uri));
     }
 
     /**

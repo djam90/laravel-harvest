@@ -6,6 +6,10 @@ use Djam90\Harvest\BaseService;
 
 class EstimateService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\Estimate::class;
+
+    protected $path = "estimates";
+
     /**
      * List all estimates.
      *
@@ -39,7 +43,7 @@ class EstimateService extends BaseService
         // @todo validate An ISO 8601 formatted string containing a UTC date
         // and time.
 
-        return $this->api->get($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**
@@ -56,7 +60,7 @@ class EstimateService extends BaseService
     {
         $uri = "estimates/" . $estimateId;
 
-        return $this->api->get($uri);
+        return $this->transformResult($this->api->get($uri));
     }
 
     /**

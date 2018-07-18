@@ -6,6 +6,10 @@ use Djam90\Harvest\BaseService;
 
 class InvoiceMessageService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\InvoiceMessage::class;
+
+    protected $path = "invoice_messages";
+
     /**
      * List all messages for an invoice.
      *
@@ -41,7 +45,7 @@ class InvoiceMessageService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->api->get($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**

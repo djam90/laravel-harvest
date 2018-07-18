@@ -6,6 +6,10 @@ use Djam90\Harvest\BaseService;
 
 class RoleService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\Role::class;
+
+    protected $path = "roles";
+
     /**
      * List all roles.
      *
@@ -34,7 +38,7 @@ class RoleService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->api->get($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**
@@ -50,7 +54,7 @@ class RoleService extends BaseService
     {
         $uri = "roles/" . $roleId;
 
-        return $this->api->get($uri);
+        return $this->transformResult($this->api->get($uri));
     }
 
     /**

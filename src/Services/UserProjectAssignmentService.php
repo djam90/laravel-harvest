@@ -6,6 +6,10 @@ use Djam90\Harvest\BaseService;
 
 class UserProjectAssignmentService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\UserProjectAssignment::class;
+
+    protected $path = "project_assignments";
+
     /**
      * List all project assignments.
      *
@@ -36,7 +40,7 @@ class UserProjectAssignmentService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->api->get($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**
@@ -61,6 +65,6 @@ class UserProjectAssignmentService extends BaseService
     {
         $uri = "users/me/project_assignments";
 
-        return $this->api->get($uri);
+        return $this->transformResult($this->api->get($uri));
     }
 }
