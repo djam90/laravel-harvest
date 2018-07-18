@@ -45,7 +45,7 @@ class ExpenseCategoryService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -66,7 +66,7 @@ class ExpenseCategoryService extends BaseService
 
         $data = [];
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -96,7 +96,7 @@ class ExpenseCategoryService extends BaseService
         if (!is_null($unitPrice)) $data['unit_price'] = $unitPrice;
         if (!is_null($isActive)) $data['is_active'] = $isActive;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -129,7 +129,7 @@ class ExpenseCategoryService extends BaseService
         if (!is_null($isActive)) $data['is_active'] = $isActive;
 
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -146,6 +146,6 @@ class ExpenseCategoryService extends BaseService
     {
         $uri = "expense_categories/" . $expenseCategoryId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 }

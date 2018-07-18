@@ -43,7 +43,7 @@ class EstimateMessageService extends BaseService
         // @todo validate An ISO 8601 formatted string containing a UTC date
         // and time.
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -79,7 +79,7 @@ class EstimateMessageService extends BaseService
         if (!is_null($sendMeACopy)) $data['send_me_a_copy'] = $sendMeACopy;
         if (!is_null($eventType)) $data['event_type'] = $eventType;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -97,7 +97,7 @@ class EstimateMessageService extends BaseService
     {
         $uri = "estimates/" . $estimateId . "/messages/" . $messageId;
         
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 
     /**
@@ -180,6 +180,6 @@ class EstimateMessageService extends BaseService
             'event_type' => $eventType
         ];
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 }

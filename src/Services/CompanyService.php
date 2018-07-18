@@ -18,6 +18,6 @@ class CompanyService extends BaseService
     {
         $uri = "company";
 
-        return $this->httpGet($uri);
+        return $this->api->get($uri);
     }
 }

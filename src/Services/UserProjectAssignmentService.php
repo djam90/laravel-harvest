@@ -36,7 +36,7 @@ class UserProjectAssignmentService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -61,6 +61,6 @@ class UserProjectAssignmentService extends BaseService
     {
         $uri = "users/me/project_assignments";
 
-        return $this->httpGet($uri);
+        return $this->api->get($uri);
     }
 }

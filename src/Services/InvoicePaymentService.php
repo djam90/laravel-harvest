@@ -37,7 +37,7 @@ class InvoicePaymentService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -64,7 +64,7 @@ class InvoicePaymentService extends BaseService
         if (!is_null($paidAt)) $data['paid_at'] = $paidAt;
         if (!is_null($notes)) $data['notes'] = $notes;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -82,6 +82,6 @@ class InvoicePaymentService extends BaseService
     {
         $uri = "invoices/" . $invoiceId . "/payments/" . $paymentId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 }

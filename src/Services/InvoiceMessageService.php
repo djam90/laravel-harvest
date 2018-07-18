@@ -41,7 +41,7 @@ class InvoiceMessageService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -89,7 +89,7 @@ class InvoiceMessageService extends BaseService
         if (!is_null($thankYou)) $data['thank_you'] = $thankYou;
         if (!is_null($eventType)) $data['event_type'] = $eventType;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -107,7 +107,7 @@ class InvoiceMessageService extends BaseService
     {
         $uri = "invoices/" . $invoiceId . "/messages/" . $messageId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 
     /**
@@ -129,7 +129,7 @@ class InvoiceMessageService extends BaseService
             'event_type' => 'send',
         ];
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -151,7 +151,7 @@ class InvoiceMessageService extends BaseService
             'event_type' => 'close',
         ];
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -173,7 +173,7 @@ class InvoiceMessageService extends BaseService
             'event_type' => 're-open',
         ];
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -195,6 +195,6 @@ class InvoiceMessageService extends BaseService
             'event_type' => 'draft',
         ];
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 }

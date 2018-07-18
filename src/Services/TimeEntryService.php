@@ -6,6 +6,10 @@ use Djam90\Harvest\BaseService;
 
 class TimeEntryService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\TimeEntry::class;
+
+    protected $path = "time_entries";
+
     /**
      * List all time entries.
      *
@@ -61,7 +65,7 @@ class TimeEntryService extends BaseService
         // @todo validate An ISO 8601 formatted string containing a UTC date
         // and time.
 
-        return $this->httpGet($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**
@@ -78,7 +82,7 @@ class TimeEntryService extends BaseService
     {
         $uri = "time_entries/" . $timeEntryId;
 
-        return $this->httpGet($uri);
+        return $this->transformResult($this->api->get($uri));
     }
 
     /**
@@ -124,7 +128,7 @@ class TimeEntryService extends BaseService
         if (!is_null($externalReference)) $data['external_reference'] =
             $externalReference;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -171,7 +175,7 @@ class TimeEntryService extends BaseService
         if (!is_null($externalReference)) $data['external_reference'] =
             $externalReference;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -215,7 +219,7 @@ class TimeEntryService extends BaseService
         if (!is_null($externalReference)) $data['external_reference'] =
             $externalReference;
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -235,7 +239,7 @@ class TimeEntryService extends BaseService
     {
         $uri = "time_entries/" . $timeEntryId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 
     /**
@@ -254,7 +258,7 @@ class TimeEntryService extends BaseService
 
         $data = [];
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -273,6 +277,6 @@ class TimeEntryService extends BaseService
 
         $data = [];
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 }

@@ -34,7 +34,7 @@ class RoleService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -50,7 +50,7 @@ class RoleService extends BaseService
     {
         $uri = "roles/" . $roleId;
 
-        return $this->httpGet($uri);
+        return $this->api->get($uri);
     }
 
     /**
@@ -74,7 +74,7 @@ class RoleService extends BaseService
 
         if (!is_null($userIds)) $data['user_ids'] = $userIds;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -101,7 +101,7 @@ class RoleService extends BaseService
 
         if (!is_null($userIds)) $data['user_ids'] = $userIds;
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -118,6 +118,6 @@ class RoleService extends BaseService
     {
         $uri = "roles/" . $roleId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 }

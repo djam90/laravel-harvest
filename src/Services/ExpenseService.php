@@ -42,7 +42,7 @@ class ExpenseService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -59,7 +59,7 @@ class ExpenseService extends BaseService
     {
         $uri = "expenses/" . $expenseId;
 
-        return $this->httpGet($uri);
+        return $this->api->get($uri);
     }
 
     /**
@@ -109,7 +109,7 @@ class ExpenseService extends BaseService
         if (!is_null($billable)) $data['billable'] = $billable;
         if (!is_null($receipt)) $data['receipt'] = $receipt;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -163,7 +163,7 @@ class ExpenseService extends BaseService
         if (!is_null($receipt)) $data['receipt'] = $receipt;
         if (!is_null($deleteReceipt)) $data['delete_receipt'] = $deleteReceipt;
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -179,6 +179,6 @@ class ExpenseService extends BaseService
     {
         $uri = "expenses/" . $expenseId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 }

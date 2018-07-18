@@ -41,7 +41,7 @@ class EstimateItemCategoryService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -62,7 +62,7 @@ class EstimateItemCategoryService extends BaseService
 
         $data = [];
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -84,7 +84,7 @@ class EstimateItemCategoryService extends BaseService
             'name' => $name,
         ];
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -108,7 +108,7 @@ class EstimateItemCategoryService extends BaseService
             'name' => $name,
         ];
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -128,6 +128,6 @@ class EstimateItemCategoryService extends BaseService
     {
         $uri = "estimate_item_categories/" . $estimateItemCategoryId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 }

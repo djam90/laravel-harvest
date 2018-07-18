@@ -33,7 +33,7 @@ class InvoiceService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -50,7 +50,7 @@ class InvoiceService extends BaseService
     {
         $uri = "invoices/" . $invoiceId;
 
-        return $this->httpGet($uri);
+        return $this->api->get($uri);
     }
 
     /**
@@ -115,7 +115,7 @@ class InvoiceService extends BaseService
         if (!is_null($dueDate)) $data['due_date'] = $dueDate;
         if (!is_null($lineItems)) $data['line_items'] = $lineItems;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -185,7 +185,7 @@ class InvoiceService extends BaseService
         if (!is_null($dueDate)) $data['due_date'] = $dueDate;
         if (!is_null($lineItems)) $data['line_items'] = $lineItems;
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -230,7 +230,7 @@ class InvoiceService extends BaseService
         if (!is_null($taxed)) $data['line_items'][0]['taxed'] = $taxed;
         if (!is_null($taxed2)) $data['line_items'][0]['taxed2'] = $taxed2;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -277,7 +277,7 @@ class InvoiceService extends BaseService
         if (!is_null($taxed)) $data['line_items'][0]['taxed'] = $taxed;
         if (!is_null($taxed2)) $data['line_items'][0]['taxed2'] = $taxed2;
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -304,7 +304,7 @@ class InvoiceService extends BaseService
             ]
         ];
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -320,6 +320,6 @@ class InvoiceService extends BaseService
     {
         $uri = "invoices/" . $invoiceId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 }

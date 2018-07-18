@@ -6,6 +6,10 @@ use Djam90\Harvest\BaseService;
 
 class ProjectService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\Project::class;
+
+    protected $path = "projects";
+
     /**
      * List all projects.
      *
@@ -32,35 +36,9 @@ class ProjectService extends BaseService
         // @todo validate An ISO 8601 formatted string containing a UTC date
         // and time.
 
-        return $this->httpGet($uri, $data);
-    }
+        $projects = $this->api->get($uri, $data);
 
-    /**
-     * list all projects. (ignoring pagination)
-     *
-     * This will make multiple API calls to fetch ALL projects, iterating through paginated pages until all have been
-     * retrieved.
-     *
-     * @param boolean|null $isActive Pass true to only return active projects and false to return inactive projects.
-     * @param integer|null $clientId Only return projects belonging to the client with the given ID.
-     * @param mixed|null $updatedSince Only return projects that have been updated since the given date and time.
-     *
-     * @return mixed
-     */
-    public function getAll($isActive = null, $clientId = null, $updatedSince = null)
-    {
-        $batch = $this->get($isActive, $clientId, $updatedSince);
-        $projects = $batch->projects;
-        $totalPages = $batch->total_pages;
-
-        if ($totalPages > 1) {
-            while (!is_null($batch->next_page)) {
-                $batch = $this->get($isActive, $clientId, $updatedSince, $batch->next_page);
-                array_merge($projects, $batch->projects);
-            }
-        }
-
-        return $projects;
+        return $this->transformResult($projects);
     }
 
     /**
@@ -77,7 +55,7 @@ class ProjectService extends BaseService
     {
         $uri = "projects/" . $projectId;
 
-        return $this->httpGet($uri);
+        return $this->transformResult($this->api->get($uri));
     }
 
     /**
@@ -156,7 +134,7 @@ class ProjectService extends BaseService
         if (!is_null($startsOn)) $data['starts_on'] = $startsOn;
         if (!is_null($endsOn)) $data['ends_on'] = $endsOn;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -240,7 +218,7 @@ class ProjectService extends BaseService
         if (!is_null($startsOn)) $data['starts_on'] = $startsOn;
         if (!is_null($endsOn)) $data['ends_on'] = $endsOn;
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -258,6 +236,6 @@ class ProjectService extends BaseService
     {
         $uri = "projects/" . $projectId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 }

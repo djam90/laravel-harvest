@@ -39,7 +39,7 @@ class ClientContactService extends BaseService
         if (!is_null($page)) $data['page'] = $page;
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -56,7 +56,7 @@ class ClientContactService extends BaseService
     {
         $uri = "contacts/" . $contactId;
 
-        return $this->httpGet($uri);
+        return $this->api->get($uri);
     }
 
     /**
@@ -94,7 +94,7 @@ class ClientContactService extends BaseService
         if (!is_null($phoneMobile)) $data['phone_mobile'] = $phoneMobile;
         if (!is_null($fax)) $data['fax'] = $fax;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -136,7 +136,7 @@ class ClientContactService extends BaseService
         if (!is_null($phoneMobile)) $data['phone_mobile'] = $phoneMobile;
         if (!is_null($fax)) $data['fax'] = $fax;
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -152,6 +152,6 @@ class ClientContactService extends BaseService
     {
         $uri = "contacts/" . $contactId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 }

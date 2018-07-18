@@ -51,7 +51,7 @@ class ProjectUserAssignmentService extends BaseService
         // @todo validate An ISO 8601 formatted string containing a UTC date
         // and time.
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -71,7 +71,7 @@ class ProjectUserAssignmentService extends BaseService
         $uri = "projects/" . $projectId . "/task_assignments/" .
             $taskAssignmentId;
 
-        return $this->httpGet($uri);
+        return $this->api->get($uri);
     }
 
     /**
@@ -104,7 +104,7 @@ class ProjectUserAssignmentService extends BaseService
         if (!is_null($hourlyRate)) $data['hourly_rate'] = $hourlyRate;
         if (!is_null($budget)) $data['budget'] = $budget;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -140,7 +140,7 @@ class ProjectUserAssignmentService extends BaseService
         if (!is_null($hourlyRate)) $data['hourly_rate'] = $hourlyRate;
         if (!is_null($budget)) $data['budget'] = $budget;
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -160,6 +160,6 @@ class ProjectUserAssignmentService extends BaseService
         $uri = "projects/" . $projectId . "/task_assignments/" .
             $taskAssignmentId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 }

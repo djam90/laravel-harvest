@@ -39,7 +39,7 @@ class EstimateService extends BaseService
         // @todo validate An ISO 8601 formatted string containing a UTC date
         // and time.
 
-        return $this->httpGet($uri, $data);
+        return $this->api->get($uri, $data);
     }
 
     /**
@@ -56,7 +56,7 @@ class EstimateService extends BaseService
     {
         $uri = "estimates/" . $estimateId;
 
-        return $this->httpGet($uri);
+        return $this->api->get($uri);
     }
 
     /**
@@ -115,7 +115,7 @@ class EstimateService extends BaseService
         if (!is_null($issueDate)) $data['issue_date'] = $issueDate;
         if (!is_null($lineItems)) $data['line_items'] = $lineItems;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -179,7 +179,7 @@ class EstimateService extends BaseService
         if (!is_null($issueDate)) $data['issue_date'] = $issueDate;
         if (!is_null($lineItems)) $data['line_items'] = $lineItems;
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -287,6 +287,6 @@ class EstimateService extends BaseService
     {
         $uri = "estimates/" . $estimateId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 }

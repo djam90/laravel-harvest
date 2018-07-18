@@ -6,6 +6,10 @@ use Djam90\Harvest\BaseService;
 
 class TaskService extends BaseService
 {
+    protected $modelClass = \Djam90\Harvest\Models\Task::class;
+
+    protected $path = "tasks";
+
     /**
      * List all tasks.
      *
@@ -44,7 +48,7 @@ class TaskService extends BaseService
         // @todo validate An ISO 8601 formatted string containing a UTC date
         // and time.
 
-        return $this->httpGet($uri, $data);
+        return $this->transformResult($this->api->get($uri, $data));
     }
 
     /**
@@ -61,7 +65,7 @@ class TaskService extends BaseService
     {
         $uri = "tasks/" . $taskId;
 
-        return $this->httpGet($uri);
+        return $this->transformResult($this->api->get($uri));
     }
 
     /**
@@ -98,7 +102,7 @@ class TaskService extends BaseService
         if (!is_null($isDefault)) $data['is_default'] = $isDefault;
         if (!is_null($isActive)) $data['is_active'] = $isActive;
 
-        return $this->httpPost($uri, $data);
+        return $this->api->post($uri, $data);
     }
 
     /**
@@ -134,7 +138,7 @@ class TaskService extends BaseService
         if (!is_null($isDefault)) $data['is_default'] = $isDefault;
         if (!is_null($isActive)) $data['is_active'] = $isActive;
 
-        return $this->httpPatch($uri, $data);
+        return $this->api->patch($uri, $data);
     }
 
     /**
@@ -152,6 +156,6 @@ class TaskService extends BaseService
     {
         $uri = "tasks/" . $taskId;
 
-        return $this->httpDelete($uri);
+        return $this->api->delete($uri);
     }
 }
