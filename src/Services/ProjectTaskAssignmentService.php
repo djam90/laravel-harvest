@@ -7,7 +7,7 @@ use Djam90\Harvest\BaseService;
 /**
  * Admin or project manager permissions required.
  */
-class ProjectUserAssignmentService extends BaseService
+class ProjectTaskAssignmentService extends BaseService
 {
     /**
      * List all task assignments.
