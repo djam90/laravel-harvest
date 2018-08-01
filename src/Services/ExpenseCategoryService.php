@@ -98,8 +98,7 @@ class ExpenseCategoryService extends BaseService
      *
      * @return mixed
      */
-    public function create($name, $unitName = null, $unitPrice = null,
-                           $isActive = null)
+    public function create($name, $unitName = null, $unitPrice = null, $isActive = null)
     {
         $uri = "expense_categories";
 
@@ -131,8 +130,7 @@ class ExpenseCategoryService extends BaseService
      *
      * @return mixed
      */
-    public function update($expenseCategoryId, $name = null, $unitName = null,
-                           $unitPrice = null, $isActive = null)
+    public function update($expenseCategoryId, $name = null, $unitName = null, $unitPrice = null, $isActive = null)
     {
         $uri = "expense_categories/" . $expenseCategoryId;
 

@@ -86,19 +86,20 @@ class TaskService extends BaseService
      * response code if the call succeeded.
      *
      * @param string $name The name of the task.
-     * @param boolean|null $billableByDefault Used in determining whether default tasks should be marked billable when
-     * creating a new project. Defaults to true.
-     * @param float|null $defaultHourlyRate The default hourly rate to use for this task when it is added to a project.
-     * Defaults to 0.
-     * @param boolean|null $isDefault Whether this task should be automatically added to future projects. Defaults to
-     * false.
+     * @param boolean|null $billableByDefault Used in determining whether default tasks should be marked billable when creating a new project. Defaults to true.
+     * @param float|null $defaultHourlyRate The default hourly rate to use for this task when it is added to a project. Defaults to 0.
+     * @param boolean|null $isDefault Whether this task should be automatically added to future projects. Defaults to false.
      * @param boolean|null $isActive Whether this task is active or archived. Defaults to true.
      *
      * @return mixed
      */
-    public function create($name, $billableByDefault = null,
-                           $defaultHourlyRate = null, $isDefault = null,
-                           $isActive = null)
+    public function create(
+        $name,
+        $billableByDefault = null,
+        $defaultHourlyRate = null,
+        $isDefault = null,
+        $isActive = null
+    )
     {
         $uri = "tasks";
 
@@ -133,9 +134,14 @@ class TaskService extends BaseService
      *
      * @return mixed
      */
-    public function update($taskId, $name = null, $billableByDefault = null,
-                           $defaultHourlyRate = null, $isDefault = null,
-                           $isActive = null)
+    public function update(
+        $taskId,
+        $name = null,
+        $billableByDefault = null,
+        $defaultHourlyRate = null,
+        $isDefault = null,
+        $isActive = null
+    )
     {
         $uri = "tasks/" . $taskId;
 

@@ -104,11 +104,22 @@ class InvoiceService extends BaseService
      *
      * @return mixed
      */
-    public function create($clientId, $retainerId = null, $estimateId = null, 
-                           $number = null, $purchaseOrder = null, $tax = null, 
-                           $tax2 = null, $discount = null, $subject = null,
-                           $notes = null, $currency = null, $issueDate = null, 
-                           $dueDate = null, $lineItems = null)
+    public function create(
+        $clientId,
+        $retainerId = null,
+        $estimateId = null,
+        $number = null,
+        $purchaseOrder = null,
+        $tax = null,
+        $tax2 = null,
+        $discount = null,
+        $subject = null,
+        $notes = null,
+        $currency = null,
+        $issueDate = null,
+        $dueDate = null,
+        $lineItems = null
+    )
     {
         $uri = "invoices";
 
@@ -174,12 +185,23 @@ class InvoiceService extends BaseService
      *
      * @return mixed
      */
-    public function update($invoiceId, $clientId, $retainerId = null,
-                           $estimateId = null, $number = null,
-                           $purchaseOrder = null, $tax = null, $tax2 = null,
-                           $discount = null, $subject = null, $notes = null,
-                           $currency = null, $issueDate = null, $dueDate = null,
-                           $lineItems = null)
+    public function update(
+        $invoiceId,
+        $clientId,
+        $retainerId = null,
+        $estimateId = null,
+        $number = null,
+        $purchaseOrder = null,
+        $tax = null,
+        $tax2 = null,
+        $discount = null,
+        $subject = null,
+        $notes = null,
+        $currency = null,
+        $issueDate = null,
+        $dueDate = null,
+        $lineItems = null
+    )
     {
         $uri = "invoices/" . $invoiceId;
 
@@ -220,10 +242,16 @@ class InvoiceService extends BaseService
      *
      * @return mixed
      */
-    public function createLineItem($invoiceId, $kind, $unitPrice,
-                                   $projectId = null, $description = null,
-                                   $quantity = null, $taxed = null,
-                                   $taxed2 = null)
+    public function createLineItem(
+        $invoiceId,
+        $kind,
+        $unitPrice,
+        $projectId = null,
+        $description = null,
+        $quantity = null,
+        $taxed = null,
+        $taxed2 = null
+    )
     {
         $uri = "invoices/" . $invoiceId;
 
@@ -266,10 +294,17 @@ class InvoiceService extends BaseService
      *
      * @return mixed
      */
-    public function updateLineItem($invoiceId, $lineItemId, $kind = null,
-                                   $unitPrice = null, $projectId = null,
-                                   $description = null, $quantity = null,
-                                   $taxed = null, $taxed2 = null)
+    public function updateLineItem(
+        $invoiceId,
+        $lineItemId,
+        $kind = null,
+        $unitPrice = null,
+        $projectId = null,
+        $description = null,
+        $quantity = null,
+        $taxed = null,
+        $taxed2 = null
+    )
     {
         $uri = "invoices/" . $invoiceId;
 

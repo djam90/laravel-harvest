@@ -148,20 +148,24 @@ class TimeEntryService extends BaseService
      * @param integer $projectId The project ID.
      * @param integer $taskId The task ID.
      * @param mixed $spentDate The ISO 8601 formatted date the time entry was spent.
-     * @param integer|null $userId The ID of the user to associate with the time entry. Defaults to the currently
-     * authenticated user's ID.
+     * @param integer|null $userId The ID of the user to associate with the time entry. Defaults to the currently authenticated user's ID.
      * @param float|null $hours The current amount of time tracked. If provided, the time entry will be created with
      * the specified hours and is_running will be set to false. If not provided, hours will be set to 0.0 and
      * is_running will be set to true.
      * @param string|null $notes Any notes to be associated with the time entry.
-     * @param object|null $externalReference An object containing the id, group_id, and permalink of the external
-     * reference.
+     * @param object|null $externalReference An object containing the id, group_id, and permalink of the external reference.
      *
      * @return mixed
      */
-    public function createForDuration($projectId, $taskId, $spentDate,
-                                      $userId = null, $hours = null,
-                                      $notes = null, $externalReference = null)
+    public function createForDuration(
+        $projectId,
+        $taskId,
+        $spentDate,
+        $userId = null,
+        $hours = null,
+        $notes = null,
+        $externalReference = null
+    )
     {
         $uri = "time_entries";
 
@@ -203,11 +207,16 @@ class TimeEntryService extends BaseService
      *
      * @return mixed
      */
-    public function createForStartAndEndTime($projectId, $taskId, $spentDate,
-                                             $userId = null,
-                                             $startedTime = null,
-                                             $endedTime = null, $notes = null,
-                                             $externalReference = null)
+    public function createForStartAndEndTime(
+        $projectId,
+        $taskId,
+        $spentDate,
+        $userId = null,
+        $startedTime = null,
+        $endedTime = null,
+        $notes = null,
+        $externalReference = null
+    )
     {
         $uri = "time_entries";
 
@@ -249,10 +258,16 @@ class TimeEntryService extends BaseService
      *
      * @return mixed
      */
-    public function update($timeEntryId, $projectId = null, $taskId = null,
-                           $spentDate = null, $startedTime = null,
-                           $endedTime = null, $hours = null, $notes = null,
-                           $externalReference = null)
+    public function update(
+        $timeEntryId,
+        $projectId = null,
+        $taskId = null,
+        $spentDate = null,
+        $startedTime = null,
+        $endedTime = null,
+        $hours = null, $notes = null,
+        $externalReference = null
+    )
     {
         $uri = "time_entries/" . $timeEntryId;
 

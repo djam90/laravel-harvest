@@ -91,9 +91,16 @@ class ClientContactService extends BaseService
      *
      * @return mixed
      */
-    public function create($clientId, $firstName, $lastName = null,
-                           $title = null, $email = null, $phoneOffice = null,
-                           $phoneMobile = null, $fax = null)
+    public function create(
+        $clientId,
+        $firstName,
+        $lastName = null,
+        $title = null,
+        $email = null,
+        $phoneOffice = null,
+        $phoneMobile = null,
+        $fax = null
+    )
     {
         $uri = "contacts";
 
@@ -133,10 +140,17 @@ class ClientContactService extends BaseService
      *
      * @return mixed
      */
-    public function update($contactId, $clientId, $firstName = null,
-                           $lastName = null, $title = null, $email = null,
-                           $phoneOffice = null, $phoneMobile = null,
-                           $fax = null)
+    public function update(
+        $contactId,
+        $clientId,
+        $firstName = null,
+        $lastName = null,
+        $title = null,
+        $email = null,
+        $phoneOffice = null,
+        $phoneMobile = null,
+        $fax = null
+    )
     {
         $uri = "contacts/" . $contactId;
 

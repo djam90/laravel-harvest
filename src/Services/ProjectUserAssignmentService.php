@@ -127,9 +127,14 @@ class ProjectUserAssignmentService extends BaseService
      *
      * @return mixed
      */
-    public function create($projectId, $userId, $isActive = null,
-                           $isProjectManager = null, $hourlyRate = null,
-                           $budget = null)
+    public function create(
+        $projectId,
+        $userId,
+        $isActive = null,
+        $isProjectManager = null,
+        $hourlyRate = null,
+        $budget = null
+    )
     {
         $uri = "projects/" . $projectId . "/user_assignments";
 
@@ -164,9 +169,14 @@ class ProjectUserAssignmentService extends BaseService
      *
      * @return mixed
      */
-    public function update($projectId, $userAssignmentId, $isActive = null,
-                           $isProjectManager = null, $hourlyRate = null,
-                           $budget = null)
+    public function update(
+        $projectId,
+        $userAssignmentId,
+        $isActive = null,
+        $isProjectManager = null,
+        $hourlyRate = null,
+        $budget = null
+    )
     {
         $uri = "projects/" . $projectId . "/user_assignments/" .
             $userAssignmentId;

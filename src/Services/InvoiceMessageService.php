@@ -107,10 +107,17 @@ class InvoiceMessageService extends BaseService
      *
      * @return mixed
      */
-    public function create($invoiceId, $recipients, $subject = null,
-                           $body = null, $includeLinkToClientInvoice = null,
-                           $attachPdf = null, $sendMeACopy = null,
-                           $thankYou = null, $eventType = null)
+    public function create(
+        $invoiceId,
+        $recipients,
+        $subject = null,
+        $body = null,
+        $includeLinkToClientInvoice = null,
+        $attachPdf = null,
+        $sendMeACopy = null,
+        $thankYou = null,
+        $eventType = null
+    )
     {
         $uri = "invoices/" . $invoiceId . "/messages";
 

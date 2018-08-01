@@ -166,9 +166,14 @@ class ProjectTaskAssignmentService extends BaseService
      *
      * @return mixed
      */
-    public function update($projectId, $taskAssignmentId, $isActive = null,
-                           $billable = null, $hourlyRate = null,
-                           $budget = null)
+    public function update(
+        $projectId,
+        $taskAssignmentId,
+        $isActive = null,
+        $billable = null,
+        $hourlyRate = null,
+        $budget = null
+    )
     {
         $uri = "projects/" . $projectId . "/task_assignments/" .
             $taskAssignmentId;
