@@ -42,6 +42,18 @@ class ProjectService extends BaseService
     }
 
     /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
+    public function getPage($page, $perPage = null)
+    {
+        return $this->get(null, null, null, $page, $perPage);
+    }
+
+    /**
      *  Retrieve a project.
      *
      * Retrieves the project with the given ID. Returns a project object and a 200 OK response code if a valid
