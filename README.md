@@ -80,7 +80,7 @@ user
 ```
 
 #### Example
-```
+```php
 $company = $harvestService->company->get();
 $users = $harvestService->user->get();
 
