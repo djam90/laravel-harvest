@@ -17,14 +17,14 @@ You may need to publish the vendor config file by running `php artisan vendor:pu
 Add the following to your .env file:
 
 *Please note that the Harvest details must be from an Admin user*
-```
+```bash
 HARVEST_ACCOUNT_ID=[YOUR_ACCOUNT_ID]
 HARVEST_PERSONAL_ACCESS_TOKEN=[YOUR_ACCESS_TOKEN]
 ```
 
 Import the HarvestService class into your constructor or controller methods:
 
-```
+```php
 use Djam90\Harvest\HarvestService;
 
 public function __construct(HarvestService $harvestService)
@@ -34,7 +34,7 @@ public function __construct(HarvestService $harvestService)
 ```
 
 Then you can use it in your methods:
-```
+```php
 public function foo()
 {
     $user = $this->harvestService->user->getCurrentUser();
@@ -43,7 +43,7 @@ public function foo()
 
 You can also use the Harvest facade:
 
-```
+```php
 use Harvest;
 
 public function foo()
