@@ -10,4 +10,9 @@ class TestCase extends OrchestraTestCase
     {
         parent::setUp();
     }
+
+    protected function getPackageProviders($app)
+    {
+        return ['Djam90\Harvest\HarvestServiceProvider'];
+    }
 }
