@@ -33,8 +33,7 @@ class EstimateMessageService extends BaseService
      *
      * @return mixed
      */
-    public function get($estimateId, $updatedSince = null, $page = null,
-                        $perPage = null)
+    public function get($estimateId, $updatedSince = null, $page = null, $perPage = null)
     {
         $uri = "estimates/" . $estimateId . "/messages";
 
@@ -48,6 +47,44 @@ class EstimateMessageService extends BaseService
         // and time.
 
         return $this->transformResult($this->api->get($uri, $data));
+    }
+
+    /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param int|null $estimateId
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
+    public function getPage($estimateId = null, $page, $perPage = null)
+    {
+        return $this->get($estimateId, $page, $perPage);
+    }
+
+    /**
+     * Get all estimate messages.
+     *
+     * @param int|null $estimateId
+     * @return \Djam90\Harvest\Objects\PaginatedCollection|mixed|static
+     */
+    public function getAll($estimateId = null)
+    {
+        if (is_null($estimateId)) {
+            throw new \InvalidArgumentException("EstimateMessageService does not support getAll without an estimate ID provided.");
+        }
+
+        $batch = $this->get($estimateId);
+        $items = $batch->{$this->path};
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            while (!is_null($batch->next_page)) {
+                $batch = $this->getPage($estimateId, $batch->next_page);
+                $items = $items->merge($batch->{$this->path});
+            }
+        }
+        return $this->transformResult($items);
     }
 
     /**

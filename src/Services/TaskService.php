@@ -32,8 +32,7 @@ class TaskService extends BaseService
      *
      * @return mixed
      */
-    public function get($isActive = null, $updatedSince = null, $page = null,
-                        $perPage = null)
+    public function get($isActive = null, $updatedSince = null, $page = null, $perPage = null)
     {
         $uri = "tasks";
 
@@ -49,6 +48,18 @@ class TaskService extends BaseService
         // and time.
 
         return $this->transformResult($this->api->get($uri, $data));
+    }
+
+    /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
+    public function getPage($page, $perPage = null)
+    {
+        return $this->get(null, null, $page, $perPage);
     }
 
     /**

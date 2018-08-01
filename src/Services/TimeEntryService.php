@@ -28,10 +28,8 @@ class TimeEntryService extends BaseService
      * @param integer $userId The user ID.
      * @param integer $clientId The client ID.
      * @param integer $projectId The project ID.
-     * @param boolean|null $isBilled Pass true to only return time entries that have been invoiced and false to return
-     * time entries that have not been invoiced.
-     * @param boolean|null $isRunning Pass true to only return running time entries and false to return non-running
-     * time entries.
+     * @param boolean|null $isBilled Pass true to only return time entries that have been invoiced and false to return time entries that have not been invoiced.
+     * @param boolean|null $isRunning Pass true to only return running time entries and false to return non-running time entries.
      * @param mixed|null $updatedSince Only return time entries that have been updated since the given date and time.
      * @param mixed|null $from Only return time entries with a spent_date on or after the given date.
      * @param mixed|null $to Only return time entries with a spent_date on or before the given date.
@@ -42,9 +40,18 @@ class TimeEntryService extends BaseService
      *
      * @return mixed
      */
-    public function get($userId, $clientId, $projectId, $isBilled = null,
-                        $isRunning = null, $updatedSince = null, $from = null,
-                        $to = null, $page = null, $perPage = null)
+    public function get(
+        $userId,
+        $clientId,
+        $projectId,
+        $isBilled = null,
+        $isRunning = null,
+        $updatedSince = null,
+        $from = null,
+        $to = null,
+        $page = null,
+        $perPage = null
+    )
     {
         $uri = "time_entries";
 
@@ -66,6 +73,48 @@ class TimeEntryService extends BaseService
         // and time.
 
         return $this->transformResult($this->api->get($uri, $data));
+    }
+
+    /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param null $userId
+     * @param null $clientId
+     * @param null $projectId
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
+    public function getPage($userId = null, $clientId = null, $projectId = null, $page, $perPage = null)
+    {
+        return $this->get($userId, $clientId, $projectId, null, null, null, null, null, $page, $perPage);
+    }
+
+    /**
+     * Get all time entries.
+     *
+     * @param int|null $userId
+     * @param int|null $clientId
+     * @param int|null $projectId
+     * @return \Djam90\Harvest\Objects\PaginatedCollection|mixed|static
+     */
+    public function getAll($userId = null, $clientId = null, $projectId = null)
+    {
+        if (is_null($userId) || is_null($clientId) || is_null($projectId)) {
+            throw new \InvalidArgumentException("TimeEntryService does not support getAll without a user ID, client ID or project ID provided.");
+        }
+
+        $batch = $this->get($userId, $clientId, $projectId);
+        $items = $batch->{$this->path};
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            while (!is_null($batch->next_page)) {
+                $batch = $this->getPage($userId, $clientId, $projectId, $batch->next_page);
+                $items = $items->merge($batch->{$this->path});
+            }
+        }
+        return $this->transformResult($items);
     }
 
     /**

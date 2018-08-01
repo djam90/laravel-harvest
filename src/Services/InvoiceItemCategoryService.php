@@ -49,6 +49,18 @@ class InvoiceItemCategoryService extends BaseService
     }
 
     /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
+    public function getPage($page, $perPage = null)
+    {
+        return $this->get(null, $page, $perPage);
+    }
+
+    /**
      * Retrieve an invoice item category.
      *
      * Retrieves the invoice item category with the given ID.

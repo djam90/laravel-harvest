@@ -44,6 +44,44 @@ class UserProjectAssignmentService extends BaseService
     }
 
     /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param int|null $userId
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
+    public function getPage($userId = null, $page, $perPage = null)
+    {
+        return $this->get($userId, null, $page, $perPage);
+    }
+
+    /**
+     * Get all user project assignments.
+     *
+     * @param int|null $userId
+     * @return \Djam90\Harvest\Objects\PaginatedCollection|mixed|static
+     */
+    public function getAll($userId = null)
+    {
+        if (is_null($userId)) {
+            throw new \InvalidArgumentException("UserProjectAssignmentService does not support getAll without a user ID provided.");
+        }
+
+        $batch = $this->get($userId);
+        $items = $batch->{$this->path};
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            while (!is_null($batch->next_page)) {
+                $batch = $this->getPage($userId, $batch->next_page);
+                $items = $items->merge($batch->{$this->path});
+            }
+        }
+        return $this->transformResult($items);
+    }
+
+    /**
      * List all project assignments for the currently authenticated user.
      *
      * Returns a list of your project assignments for the currently authenticated user. The project assignments are

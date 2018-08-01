@@ -42,6 +42,18 @@ class RoleService extends BaseService
     }
 
     /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
+    public function getPage($page, $perPage = null)
+    {
+        return $this->get($page, $perPage);
+    }
+
+    /**
      * Get a role by ID.
      *
      * Retrieves the role with the given ID.

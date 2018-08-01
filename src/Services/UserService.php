@@ -47,6 +47,18 @@ class UserService extends BaseService
     }
 
     /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
+    public function getPage($page, $perPage = null)
+    {
+        return $this->get(null, null, $page, $perPage);
+    }
+
+    /**
      * Retrieve the currently authenticated user.
      *
      * Retrieves the currently authenticated user. Returns a user object and a

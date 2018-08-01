@@ -43,6 +43,13 @@ class ClientService extends BaseService
         return $this->transformResult($clients);
     }
 
+    /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
     public function getPage($page, $perPage = null)
     {
         return $this->get(null, null, $page, $perPage);

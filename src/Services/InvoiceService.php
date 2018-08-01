@@ -24,8 +24,7 @@ class InvoiceService extends BaseService
      *
      * @return mixed
      */
-    public function get($clientId = null, $projectId = null,
-                        $updatedSince = null, $page = null, $perPage = null)
+    public function get($clientId = null, $projectId = null, $updatedSince = null, $page = null, $perPage = null)
     {
         $uri = "invoices";
 
@@ -38,6 +37,18 @@ class InvoiceService extends BaseService
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
         return $this->transformResult($this->api->get($uri, $data));
+    }
+
+    /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
+    public function getPage($page, $perPage = null)
+    {
+        return $this->get(null, null, null, $page, $perPage);
     }
 
     /**

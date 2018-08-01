@@ -37,8 +37,7 @@ class ExpenseCategoryService extends BaseService
      *
      * @return mixed
      */
-    public function get($isActive = null, $updatedSince = null, $page = null,
-                        $perPage = null)
+    public function get($isActive = null, $updatedSince = null, $page = null, $perPage = null)
     {
         $uri = "expense_categories";
 
@@ -50,6 +49,18 @@ class ExpenseCategoryService extends BaseService
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
         return $this->transformResult($this->api->get($uri, $data));
+    }
+
+    /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
+    public function getPage($page, $perPage = null)
+    {
+        return $this->get(null, null, $page, $perPage);
     }
 
     /**

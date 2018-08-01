@@ -26,16 +26,14 @@ class InvoiceMessageService extends BaseService
      * simplify paginating your messages.
      *
      * @param integer $invoiceId The invoice ID.
-     * @param mixed|null $updatedSince Only return invoice messages that have been updated since the given date and
-     * time.
+     * @param mixed|null $updatedSince Only return invoice messages that have been updated since the given date and time.
      * @param integer $page The page number to use in pagination. For instance, if you make a list request and receive
      * 100 records, your subsequent call can include page=2 to retrieve the next page of the list. (Default: 1)
      * @param integer $perPage The number of records to return per page. Can range between 1 and 100. (Default: 100)
      *
      * @return mixed
      */
-    public function get($invoiceId, $updatedSince = null, $page = null,
-                        $perPage = null)
+    public function get($invoiceId, $updatedSince = null, $page = null, $perPage = null)
     {
         $uri = "invoices/" . $invoiceId . "/messages";
 
@@ -46,6 +44,44 @@ class InvoiceMessageService extends BaseService
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
         return $this->transformResult($this->api->get($uri, $data));
+    }
+
+    /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param int $invoiceId
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
+    public function getPage($invoiceId, $page, $perPage = null)
+    {
+        return $this->get($invoiceId, null, $page, $perPage);
+    }
+
+    /**
+     * Get all invoice messages.
+     *
+     * @param int|null $invoiceId
+     * @return \Djam90\Harvest\Objects\PaginatedCollection|mixed|static
+     */
+    public function getAll($invoiceId = null)
+    {
+        if (is_null($invoiceId)) {
+            throw new \InvalidArgumentException("InvoiceMessageService does not support getAll without an invoice ID provided.");
+        }
+
+        $batch = $this->get($invoiceId);
+        $items = $batch->{$this->path};
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            while (!is_null($batch->next_page)) {
+                $batch = $this->getPage($invoiceId, $batch->next_page);
+                $items = $items->merge($batch->{$this->path});
+            }
+        }
+        return $this->transformResult($items);
     }
 
     /**

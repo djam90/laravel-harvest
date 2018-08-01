@@ -30,8 +30,7 @@ class InvoicePaymentService extends BaseService
      *
      * @return mixed
      */
-    public function get($invoiceId, $updatedSince = null, $page = null,
-                        $perPage = null)
+    public function get($invoiceId, $updatedSince = null, $page = null,$perPage = null)
     {
         $uri = "invoices/" . $invoiceId . "/payments";
 
@@ -42,6 +41,44 @@ class InvoicePaymentService extends BaseService
         if (!is_null($perPage)) $data['per_page'] = $perPage;
 
         return $this->transformResult($this->api->get($uri, $data));
+    }
+
+    /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param int $invoiceId
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
+    public function getPage($invoiceId, $page, $perPage = null)
+    {
+        return $this->get($invoiceId, null, $page, $perPage);
+    }
+
+    /**
+     * Get all invoice payments.
+     *
+     * @param int|null $invoiceId
+     * @return \Djam90\Harvest\Objects\PaginatedCollection|mixed|static
+     */
+    public function getAll($invoiceId = null)
+    {
+        if (is_null($invoiceId)) {
+            throw new \InvalidArgumentException("InvoicePaymentService does not support getAll without an invoice ID provided.");
+        }
+
+        $batch = $this->get($invoiceId);
+        $items = $batch->{$this->path};
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            while (!is_null($batch->next_page)) {
+                $batch = $this->getPage($invoiceId, $batch->next_page);
+                $items = $items->merge($batch->{$this->path});
+            }
+        }
+        return $this->transformResult($items);
     }
 
     /**

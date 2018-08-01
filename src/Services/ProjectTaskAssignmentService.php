@@ -40,8 +40,7 @@ class ProjectTaskAssignmentService extends BaseService
      *
      * @return mixed
      */
-    public function get($projectId, $isActive = null, $updatedSince = null,
-                        $page = null, $perPage = null)
+    public function get($projectId, $isActive = null, $updatedSince = null, $page = null, $perPage = null)
     {
         $uri = "projects/" . $projectId . "/task_assignments";
 
@@ -56,6 +55,44 @@ class ProjectTaskAssignmentService extends BaseService
         // and time.
 
         return $this->transformResult($this->api->get($uri, $data));
+    }
+
+    /**
+     * Get a specific page, useful for the getAll() method.
+     *
+     * @param int $projectId
+     * @param int $page
+     * @param int|null $perPage
+     * @return mixed
+     */
+    public function getPage($projectId, $page, $perPage = null)
+    {
+        return $this->get($projectId, null, null, $page, $perPage);
+    }
+
+    /**
+     * Get all project task assignments.
+     *
+     * @param int|null $projectId
+     * @return \Djam90\Harvest\Objects\PaginatedCollection|mixed|static
+     */
+    public function getAll($projectId = null)
+    {
+        if (is_null($projectId)) {
+            throw new \InvalidArgumentException("ProjectTaskAssignmentService does not support getAll without a project ID provided.");
+        }
+
+        $batch = $this->get($projectId);
+        $items = $batch->{$this->path};
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            while (!is_null($batch->next_page)) {
+                $batch = $this->getPage($projectId, $batch->next_page);
+                $items = $items->merge($batch->{$this->path});
+            }
+        }
+        return $this->transformResult($items);
     }
 
     /**
@@ -94,8 +131,7 @@ class ProjectTaskAssignmentService extends BaseService
      *
      * @return mixed
      */
-    public function create($projectId, $taskId, $isActive = null,
-                           $billable = null, $hourlyRate = null, $budget = null)
+    public function create($projectId, $taskId, $isActive = null, $billable = null, $hourlyRate = null, $budget = null)
     {
         $uri = "projects/" . $projectId . "/task_assignments";
 
