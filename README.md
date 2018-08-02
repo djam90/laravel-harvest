@@ -21,7 +21,6 @@ Add the following to your .env file:
 HARVEST_ACCOUNT_ID=[YOUR_ACCOUNT_ID]
 HARVEST_PERSONAL_ACCESS_TOKEN=[YOUR_ACCESS_TOKEN]
 ```
-
 Import the HarvestService class into your constructor or controller methods:
 
 ```php
@@ -41,7 +40,7 @@ public function foo()
 }
 ```
 
-You can also use the Harvest facade:
+You can alternatively use the Harvest facade:
 
 ```php
 use Harvest;
@@ -80,15 +79,23 @@ user
 ```
 
 #### Example
+The general syntax is as follows:
+
+`$this->harvestService->SERVICE->METHOD()`
+
+See below for examples:
+
 ```php
-$company = $harvestService->company->get();
-$users = $harvestService->user->get();
+$company = $this->harvestService->company->get();
+$users = $this->harvestService->user->get();
 
 $company = Harvest::company()->get();
 $users = Harvest::user()->get();
 ```
 
-### Public API
+### Service Methods
+Below is a list of available methods you can call for each service.
+
 #### clientContact
 ```php
 get($clientId = null, $updatedSince = null, $page = null, $perPage = null)

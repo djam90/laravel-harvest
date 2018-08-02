@@ -100,7 +100,7 @@ class TimeEntryService extends BaseService
      */
     public function getAll($userId = null, $clientId = null, $projectId = null)
     {
-        if (is_null($userId) || is_null($clientId) || is_null($projectId)) {
+        if (is_null($userId) && is_null($clientId) && is_null($projectId)) {
             throw new \InvalidArgumentException("TimeEntryService does not support getAll without a user ID, client ID or project ID provided.");
         }
 
