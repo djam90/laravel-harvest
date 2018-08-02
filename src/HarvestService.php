@@ -207,7 +207,7 @@ class HarvestService extends BaseService
         if (property_exists($this, $property)) {
             return $this->{$property};
         } else {
-            throw new \Exception("API service does not exist.");
+            throw new \Exception("API service does not exist for service $property.");
         }
     }
 

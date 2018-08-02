@@ -51,4 +51,18 @@ class Base
                 break;
         }
     }
+
+    public function __call($method, $arguments)
+    {
+        if (substr($method, 0, 3) === "get") {
+            return $this->getRelatedProperty(strtolower(substr($method, 3)));
+        }
+    }
+
+    private function getRelatedProperty($property)
+    {
+        $harvestService = app('harvest');
+
+        return $harvestService->{$property}->getById($this->{$property}->id);
+    }
 }
