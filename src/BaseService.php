@@ -32,6 +32,11 @@ class BaseService
         $this->api = $api;
     }
 
+    /**
+     * Get all items.
+     *
+     * @return PaginatedCollection|mixed|static
+     */
     public function getAll()
     {
         $batch = $this->get();
@@ -47,6 +52,39 @@ class BaseService
         return $this->transformResult($items);
     }
 
+    /**
+     * Get the last page.
+     *
+     * @return PaginatedCollection
+     */
+    public function getLastPage()
+    {
+        $batch = $this->getPage(1, 1);
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            return $this->getPage($totalPages, 1);
+        }
+
+        return $batch;
+    }
+
+    /**
+     * Get the last item, from the last page.
+     *
+     * @return mixed
+     */
+    public function getLastItem()
+    {
+        return $this->getLastPage()->{$this->path}->first();
+    }
+
+    /**
+     * Transform the results set.
+     *
+     * @param $result
+     * @return PaginatedCollection|mixed|static
+     */
     public function transformResult($result)
     {
         $path = $this->path;
@@ -71,6 +109,12 @@ class BaseService
         }
     }
 
+    /**
+     * Transform an item into its designated model class.
+     *
+     * @param $result
+     * @return mixed
+     */
     public function mapToModel($result)
     {
         $class = $this->modelClass;

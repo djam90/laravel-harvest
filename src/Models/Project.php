@@ -6,6 +6,11 @@ use Djam90\Harvest\HarvestService;
 
 class Project extends Base
 {
+    /**
+     * Get the latest associated time entry.
+     *
+     * @return TimeEntry
+     */
     public function getLatestTimeEntry()
     {
         $harvestService = app('harvest');
@@ -22,5 +27,17 @@ class Project extends Base
             1,
             1
         )->time_entries->first();
+    }
+
+    /**
+     * Get the earliest associated time entry.
+     *
+     * @return TimeEntry
+     */
+    public function getEarliestTimeEntry()
+    {
+        $harvestService = app('harvest');
+
+        return $harvestService->timeEntry->getLastItem();
     }
 }

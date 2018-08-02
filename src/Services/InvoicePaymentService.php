@@ -57,6 +57,24 @@ class InvoicePaymentService extends BaseService
     }
 
     /**
+     * Get the last page, useful for getting the last item.
+     *
+     * @param int|null $invoiceId
+     * @return \Djam90\Harvest\Objects\PaginatedCollection|mixed
+     */
+    public function getLastPage($invoiceId = null)
+    {
+        $batch = $this->getPage($invoiceId, 1, 1);
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            return $this->getPage($invoiceId, $totalPages, 1);
+        }
+
+        return $batch;
+    }
+
+    /**
      * Get all invoice payments.
      *
      * @param int|null $invoiceId

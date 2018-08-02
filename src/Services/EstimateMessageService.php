@@ -63,6 +63,24 @@ class EstimateMessageService extends BaseService
     }
 
     /**
+     * Get the last page, useful for getting the last item.
+     *
+     * @param int|null $estimateId
+     * @return \Djam90\Harvest\Objects\PaginatedCollection|mixed
+     */
+    public function getLastPage($estimateId = null)
+    {
+        $batch = $this->getPage($estimateId, 1, 1);
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            return $this->getPage($estimateId, $totalPages, 1);
+        }
+
+        return $batch;
+    }
+
+    /**
      * Get all estimate messages.
      *
      * @param int|null $estimateId

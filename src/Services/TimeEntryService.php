@@ -91,6 +91,26 @@ class TimeEntryService extends BaseService
     }
 
     /**
+     * Get the last page, useful for getting the last item.
+     *
+     * @param int|null $userId
+     * @param int|null $clientId
+     * @param int|null $projectId
+     * @return \Djam90\Harvest\Objects\PaginatedCollection|mixed
+     */
+    public function getLastPage($userId = null, $clientId = null, $projectId = null)
+    {
+        $batch = $this->getPage($userId, $clientId, $projectId, 1, 1);
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            return $this->getPage($userId, $clientId, $projectId, $totalPages, 1);
+        }
+
+        return $batch;
+    }
+
+    /**
      * Get all time entries.
      *
      * @param int|null $userId

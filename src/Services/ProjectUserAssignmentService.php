@@ -66,6 +66,24 @@ class ProjectUserAssignmentService extends BaseService
     }
 
     /**
+     * Get the last page, useful for getting the last item.
+     *
+     * @param int|null $projectId
+     * @return \Djam90\Harvest\Objects\PaginatedCollection|mixed
+     */
+    public function getLastPage($projectId = null)
+    {
+        $batch = $this->getPage($projectId, 1, 1);
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            return $this->getPage($projectId, $totalPages, 1);
+        }
+
+        return $batch;
+    }
+
+    /**
      * Get all project user assignments.
      *
      * @param int|null $projectId
