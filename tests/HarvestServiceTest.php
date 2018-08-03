@@ -17,9 +17,7 @@ class HarvestServiceTest extends TestCase
     /** @test */
     public function it_can_be_instantiated_with_credentials_in_config()
     {
-        config()->set('harvest.uri', 'foo');
-        config()->set('harvest.personal_access_token', 'foo');
-        config()->set('harvest.account_id', 123);
+        $this->setCredentials();
 
         $harvestService = app('harvest');
         $this->assertInstanceOf(HarvestService::class, $harvestService);
@@ -28,9 +26,7 @@ class HarvestServiceTest extends TestCase
     /** @test */
     public function it_should_have_a_client_service()
     {
-        config()->set('harvest.uri', 'foo');
-        config()->set('harvest.personal_access_token', 'foo');
-        config()->set('harvest.account_id', 123);
+        $this->setCredentials();
 
         $harvestService = app('harvest');
         $service = $harvestService->client;
@@ -45,9 +41,7 @@ class HarvestServiceTest extends TestCase
      */
     public function it_should_support_all_services_via_property_access($key)
     {
-        config()->set('harvest.uri', 'foo');
-        config()->set('harvest.personal_access_token', 'foo');
-        config()->set('harvest.account_id', 123);
+        $this->setCredentials();
 
         $harvestService = app('harvest');
 
@@ -64,9 +58,7 @@ class HarvestServiceTest extends TestCase
      */
     public function it_should_support_all_services_via_method_access($key)
     {
-        config()->set('harvest.uri', 'foo');
-        config()->set('harvest.personal_access_token', 'foo');
-        config()->set('harvest.account_id', 123);
+        $this->setCredentials();
 
         $harvestService = app('harvest');
 
@@ -81,9 +73,7 @@ class HarvestServiceTest extends TestCase
      */
     public function it_should_throw_exception_when_accessing_invalid_service_via_property()
     {
-        config()->set('harvest.uri', 'foo');
-        config()->set('harvest.personal_access_token', 'foo');
-        config()->set('harvest.account_id', 123);
+        $this->setCredentials();
 
         $harvestService = app('harvest');
 
@@ -96,9 +86,7 @@ class HarvestServiceTest extends TestCase
      */
     public function it_should_throw_exception_when_accessing_invalid_service_via_method()
     {
-        config()->set('harvest.uri', 'foo');
-        config()->set('harvest.personal_access_token', 'foo');
-        config()->set('harvest.account_id', 123);
+        $this->setCredentials();
 
         $harvestService = app('harvest');
 

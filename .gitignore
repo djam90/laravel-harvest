@@ -5,4 +5,5 @@
 
 # User-specific stuff:
 .idea
+tmp
 vendor

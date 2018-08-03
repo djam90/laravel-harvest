@@ -4,6 +4,7 @@ namespace Djam90\Harvest\Services;
 
 use Djam90\Harvest\BaseService;
 use Djam90\Harvest\Models\Client;
+use InvalidArgumentException;
 
 class ClientService extends BaseService
 {
@@ -80,8 +81,7 @@ class ClientService extends BaseService
      *
      * @param string $name A textual description of the client.
      * @param bool|null $isActive Whether the client is active, or archived. Defaults to true.
-     * @param string|null $address A textual representation of the client's physical address. May include new line
-     * characters.
+     * @param string|null $address A textual representation of the client's physical address. May include new line characters.
      * @param string|null $currency The currency used by the client. If not provided, the company's currency will be used.
      *
      * @return mixed
@@ -94,12 +94,15 @@ class ClientService extends BaseService
             'name' => $name,
         ];
 
-        if (!is_null($isActive)) $data['is_active'] = $isActive;
-        if (!is_null($address)) $data['address'] = $address;
-        if (!is_null($currency)) $data['currency'] = $currency;
+        if (! is_null($isActive)) $data['is_active'] = $isActive;
+        if (! is_null($address)) $data['address'] = $address;
+        if (! is_null($currency)) {
+            if (! $this->currency->isValid($currency)) {
+                throw new InvalidArgumentException("Invalid currency code, please consult https://help.getharvest.com/api-v2/introduction/overview/supported-currencies/");
+            }
 
-        // @todo implement currency validation as per
-        // https://help.getharvest.com/api-v2/introduction/overview/supported-currencies/
+            $data['currency'] = $currency;
+        }
 
         return $this->api->post($uri, $data);
     }
@@ -130,10 +133,13 @@ class ClientService extends BaseService
         if (!is_null($name)) $data['name'] = $name;
         if (!is_null($isActive)) $data['is_active'] = $isActive;
         if (!is_null($address)) $data['address'] = $address;
-        if (!is_null($currency)) $data['currency'] = $currency;
+        if (!is_null($currency)) {
+            if (! $this->currency->isValid($currency)) {
+                throw new InvalidArgumentException("Invalid currency code, please consult https://help.getharvest.com/api-v2/introduction/overview/supported-currencies/");
+            }
 
-        // @todo implement currency validation as per
-        // https://help.getharvest.com/api-v2/introduction/overview/supported-currencies/
+            $data['currency'] = $currency;
+        }
 
         return $this->api->patch($uri, $data);
     }

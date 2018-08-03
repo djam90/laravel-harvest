@@ -15,4 +15,11 @@ class TestCase extends OrchestraTestCase
     {
         return ['Djam90\Harvest\HarvestServiceProvider'];
     }
+
+    public function setCredentials()
+    {
+        config()->set('harvest.uri', 'foo');
+        config()->set('harvest.personal_access_token', 'foo');
+        config()->set('harvest.account_id', 123);
+    }
 }

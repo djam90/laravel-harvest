@@ -2,6 +2,7 @@
 
 namespace Djam90\Harvest;
 
+use Djam90\Harvest\Helpers\Currency;
 use Exception;
 use Djam90\Harvest\Services\ClientContactService;
 use Djam90\Harvest\Services\ClientService;
@@ -174,7 +175,11 @@ class HarvestService extends BaseService
         UserService $harvestUserService
     )
     {
-        parent::__construct(new Api\Gateway());
+        parent::__construct(
+            new Api\Gateway(),
+            new Currency()
+        );
+
         $this->client = $clientService;
         $this->clientContact = $clientContactService;
         $this->company = $companyService;

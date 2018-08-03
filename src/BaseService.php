@@ -2,6 +2,7 @@
 
 namespace Djam90\Harvest;
 
+use Djam90\Harvest\Helpers\Currency;
 use Exception;
 use GuzzleHttp\Client;
 use Djam90\Harvest\Api\Gateway;
@@ -10,24 +11,30 @@ use Djam90\Harvest\Objects\PaginatedCollection;
 
 class BaseService
 {
-    protected $api;
-
     /**
-     * @var Client $apiClient
+     * @var Gateway $api
      */
-    protected $apiClient;
-
-    protected $uri;
-    private $token;
-    private $account_id;
+    protected $api;
 
     protected $modelClass = Base::class;
 
     /**
+     * @var Currency
+     */
+    protected $currency;
+
+    /**
      * BaseService constructor.
      * @param Gateway $api
+     * @param Currency $currency
      */
-    public function __construct(Gateway $api)
+    public function __construct(Gateway $api, Currency $currency)
+    {
+        $this->setApi($api);
+        $this->currency = $currency;
+    }
+
+    public function setApi($api)
     {
         $this->api = $api;
     }
