@@ -19,9 +19,9 @@ class Gateway
         $this->token = config('harvest.personal_access_token');
         $this->account_id = config('harvest.account_id');
 
-        if (! $this->hasCredentials()) {
-            throw new Exception('Credentials not found, please ensure you published the package config file with artisan vendor:publish');
-        }
+//         if (! $this->hasCredentials()) {
+//             throw new Exception('Credentials not found, please ensure you published the package config file with artisan vendor:publish');
+//         }
 
         $apiClient = new Client([
             'headers' => [
@@ -44,8 +44,17 @@ class Gateway
 
     public function get($uri, $data = null)
     {
+        //explicitly pass the headers here
+        //this accounts for a case where the harvest credentials weren't set when __construct was run
+        //or where they have since been updated
+        
         $response = $this->apiClient->request('GET', $this->uri . $uri, [
-            'json' => $data
+            'json' => $data,
+            'headers' => [
+                'Authorization' => 'Bearer ' . config('harvest.personal_access_token'),
+                'Harvest-Account-Id' => config('harvest.account_id'),
+                'User-Agent' => 'Harvest API App'
+            ]
         ]);
 
         return $this->transformResponse($response);
