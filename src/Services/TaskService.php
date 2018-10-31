@@ -61,6 +61,32 @@ class TaskService extends BaseService
     {
         return $this->get(null, null, $page, $perPage);
     }
+    
+/**
+     * Get all tasks
+     *
+     * @param boolean|null $isActive Pass true to only return active tasks and false to return inactive tasks.
+     * @param mixed|null $updatedSince Only return tasks that have been updated since the given date and time.
+     *
+     * @return mixed
+     */
+    public function getAll(
+        $isActive = null,
+        $updatedSince = null
+    )
+    {
+        $batch = $this->get($isActive, $updatedSince);
+        $items = $batch->{$this->path};
+        $totalPages = $batch->total_pages;
+
+        if ($totalPages > 1) {
+            while (!is_null($batch->next_page)) {
+                $batch = $this->getPage($isActive, $updatedSince, $batch->next_page);
+                $items = $items->merge($batch->{$this->path});
+            }
+        }
+        return $this->transformResult($items);
+    }
 
     /**
      * Retrieve a task.

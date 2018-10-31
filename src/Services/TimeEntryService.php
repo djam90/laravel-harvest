@@ -116,15 +116,29 @@ class TimeEntryService extends BaseService
      * @param int|null $userId
      * @param int|null $clientId
      * @param int|null $projectId
+     * @param boolean|null $isBilled Pass true to only return time entries that have been invoiced and false to return time entries that have not been invoiced.
+     * @param boolean|null $isRunning Pass true to only return running time entries and false to return non-running time entries.
+     * @param mixed|null $updatedSince Only return time entries that have been updated since the given date and time.
+     * @param mixed|null $from Only return time entries with a spent_date on or after the given date.
+     * @param mixed|null $to Only return time entries with a spent_date on or before the given date.
      * @return \Djam90\Harvest\Objects\PaginatedCollection|mixed|static
      */
-    public function getAll($userId = null, $clientId = null, $projectId = null)
+    public function getAll(
+        $userId = null,
+        $clientId = null,
+        $projectId = null,
+        $isBilled = null,
+        $isRunning = null,
+        $updatedSince = null,
+        $from = null,
+        $to = null
+    )
     {
         if (is_null($userId) && is_null($clientId) && is_null($projectId)) {
             throw new \InvalidArgumentException("TimeEntryService does not support getAll without a user ID, client ID or project ID provided.");
         }
 
-        $batch = $this->get($userId, $clientId, $projectId);
+        $batch = $this->get($userId, $clientId, $projectId, $isBilled, $isRunning, $updatedSince, $from, $to);
         $items = $batch->{$this->path};
         $totalPages = $batch->total_pages;
 
