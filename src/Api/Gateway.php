@@ -80,7 +80,7 @@ class Gateway
 
     public function delete($uri)
     {
-        $response = $this->apiClient->delete($uri);
+        $response = $this->apiClient->delete($this->uri . $uri);
 
         return $this->transformResponse($response);
     }
